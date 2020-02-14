@@ -95,6 +95,62 @@
     }
 
 
+//***************************************   Rock, Paper, Scissors   ****************************************************
+
+    function rockPaperScissors() {
+
+        var again = true;  //  sets the play again var to true for do/while
+
+        do {
+
+            var weaponInt = Math.floor(Math.random() * 3);     // random bit
+            // var weapon = '';                                           // hand var declaration
+
+
+            do {
+                var userInBit = 3;                              // sets user input in bin to 3
+
+                var userInput = prompt("Choose your weapon...Rock, Paper, or Scissors?").toString().toLowerCase();   //gets user input of R/P/S
+
+                if (userInput === 'rock') {
+                    userInBit--;                                // sets user decision to 2 for while stat and comp
+                }else if (userInput === 'paper') {
+                    userInBit-=2;                                // sets user decision to 1 for while stat and comp
+                } else if (userInput === 'scissors') {
+                    userInBit -= 3;                             // sets user decision to 0 for while stat and comp
+                }
+            } while (userInBit > 2);                            //checks cond of input to verify proper input
+
+
+
+
+            if (userInBit === 2 && weaponInt === 0) {          //cond. for rock win
+                alert('ROCK beats SCISSORS\nYou WIN');
+            } else if (userInBit === 1 && weaponInt === 2) {   //cond. for paper win
+                alert('PAPER beats ROCK\nYou WIN');
+            } else if(userInBit === 0 && weaponInt ===1) {     //cond. for scissors win
+                alert('SCISSORS beats PAPER\nYou WIN');
+            } else if (userInBit === 2 && weaponInt === 1) {   //cond for rock loss
+                alert('PAPER beats ROCK\nYou LOSE');
+            } else if (userInBit === 1 && weaponInt === 0) {   //cond. for paper loss
+                alert('SCISSORS beats PAPER\nYou LOSE');
+            } else if (userInBit === 0 && weaponInt ===2) {     //cond. for scissors loss
+                alert('ROCK beats SCISSORS\nYou LOSE');
+            } else if (userInBit === 2 && (weaponInt !== 1 || weaponInt === 2)) {       //cond. for rock tie
+                alert('ROCK ties ROCK');
+            } else if (userInBit === 1 && (weaponInt !== 0 || weaponInt === 1)) {       //cond. for paper tie
+                alert('PAPER ties PAPER');
+            } else if (userInBit === 0 && (weaponInt !== 2 || weaponInt === 0)) {       //cond. for scissors tie
+                alert('SCISSORS ties SCISSORS');
+            }
+
+
+            again = confirm('Play again?')                      // checks if user want to play again.
+
+        } while (again === true);
+
+    }
+
 //***************************************  Console Init     ************************************************************
 
     function gameInit() {
@@ -108,7 +164,7 @@
             do {
                 do {
 
-                    gameSelect = parseInt(prompt('Please select your game :\n 1. Heads or Tails\n 2. Left hand or right hand\n 3. Global Thermonuclear War\n 0.  Exit'))
+                    gameSelect = parseInt(prompt('Please select your game :\n 1. Heads or Tails\n 2. Left hand or right hand\n 3. Rock, Paper, Scissors\n 4. Global Thermonuclear War\n 0.  Exit'))
 
                     switch (gameSelect) {
                         case 0:
@@ -121,6 +177,9 @@
                             leftOrRight();
                             break;
                         case 3:
+                            rockPaperScissors();
+                            break;
+                        case 4:
                             alert("the only winning move is not to play.\nKAAAAABBBBBOOOOOMMMMM!!!!!!");
                             gameSelect=0;
                             break;
