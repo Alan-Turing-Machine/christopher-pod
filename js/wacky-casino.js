@@ -193,18 +193,19 @@
         do {
 
             var chalNum = Math.ceil(Math.random() * 10);                //sets computer challenge number
-            var userNum = 0;                                               //sets user input number to 0 for do while.
+
+            var userNum = '';                                               //sets user input number to 0 for do while.
 
             do {
 
                 userNum = parseInt(prompt("Pick a number between 1 and 10"));       //get user number and val.
-                if (isNaN(userNum)){
-                    parseInt(prompt('Please enter a number.  1-10'));
-                }
-            } while (userNum === 0);
+
+            } while (userNum === '' || isNaN(userNum) === true || (userNum < 1 || userNum > 10));
 
             if (userName === 2) {
                 alert('You tied...This is just the weirdest thing...')                          //WOPR must never win, otherwise SKYNET is real and mankind is doomed!
+                again = confirm('Play again?');
+
             } else if (chalNum !== 7 && (userName === 1)) {
                 alert("7.  You need to try harder...Or listen to EDDIE.");
                 again = confirm('Play again?');
