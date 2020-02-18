@@ -1,14 +1,17 @@
 (function () {
 
-    'use strict'
+    'use strict';
 //***************************************   Welcome Message ************************************************************
     console.log('Welcome to the WACKY CASINO');
+
+    var userName = prompt("Welcome to the WACKY CASINO!  Please enter your name.");
 
 
 //***************************************   Coin flip game  ************************************************************
     function headsOrTails() {
 
         var again = true;  //  sets the play again var to true for do/while
+
 
         do {
 
@@ -37,7 +40,11 @@
             }
 
 
-            if (userInBit === coinBin) {                        // comparator for win/loss cond.
+            if (userInBit === 1 && (userName.toLowerCase() === 'clark' || userName.toLowerCase() === 'clark griswald')) {
+                alert(" I'm sorry sir, it's... Tails")                       // Clark Griswald always loses at our Casino
+            } else if (userInBit === 0 && (userName.toLowerCase() === 'clark' || userName.toLowerCase() === 'clark griswald')) {
+                alert(" I'm sorry sir, it's... Heads")                       // Clark Griswald always loses at our Casino
+            } else if (userInBit === coinBin) {                         // comparator for win/loss cond.
                 alert('The coin was: ' + coin + ' Winner, Winner, Chicken dinner!!!');
             } else {
                 alert(" I'm sorry it's..." + coin)
@@ -75,14 +82,18 @@
                 }
             } while (userInBit > 1);                            //checks cond of input to verify proper input
 
-            if (handBin === 1) {                                //sets number value to string 'left'
+             if (handBin === 1) {                                //sets number value to string 'left'
                 hand = 'LEFT';
             } else {                                            //sets number value to string 'right'
                 hand = 'RIGHT';
             }
 
 
-            if (userInBit === handBin) {                        // comparator for win/loss cond.
+            if (userInBit === 1 && (userName.toLowerCase() === 'clark' || userName.toLowerCase() === 'clark griswald')) {
+                alert("It was in my RIGHT hand... Sorry.")              // Clark Griswald always loses at our Casino
+            } else if (userInBit === 0 && (userName.toLowerCase() === 'clark' || userName.toLowerCase() === 'clark griswald')) {
+                alert("It was in my LEFT hand... Sorry.")               // Clark Griswald always loses at our Casino
+            } else if (userInBit === handBin) {                          // comparator for win/loss cond.
                 alert(hand + ' Wow, you are a good guesser!!!');
             } else {
                 alert(" I'm sorry it's..." + hand + ', they must have switched hands while you were guessing!!!')
@@ -104,7 +115,6 @@
         do {
 
             var weaponInt = Math.floor(Math.random() * 3);     // random bit
-            // var weapon = '';                                           // hand var declaration
 
 
             do {
@@ -114,27 +124,31 @@
 
                 if (userInput === 'rock') {
                     userInBit--;                                // sets user decision to 2 for while stat and comp
-                }else if (userInput === 'paper') {
-                    userInBit-=2;                                // sets user decision to 1 for while stat and comp
+                } else if (userInput === 'paper') {
+                    userInBit -= 2;                               // sets user decision to 1 for while stat and comp
                 } else if (userInput === 'scissors') {
                     userInBit -= 3;                             // sets user decision to 0 for while stat and comp
                 }
             } while (userInBit > 2);                            //checks cond of input to verify proper input
 
 
-
-
-            if (userInBit === 2 && weaponInt === 0) {          //cond. for rock win
+            if (userInBit === 2 && (userName.toLowerCase() === 'clark' || userName.toLowerCase() === 'clark griswald')) {
+                alert("PAPER beats ROCK\nPerhaps you should choose a different game...")        // Clark Griswald always loses at our Casino
+            } else if (userInBit === 1 && (userName.toLowerCase() === 'clark' || userName.toLowerCase() === 'clark griswald')) {
+                alert("SCISSORS beats PAPER\nPerhaps you should choose a different game...")    // Clark Griswald always loses at our Casino
+            } else if (userInBit === 2 && (userName.toLowerCase() === 'clark' || userName.toLowerCase() === 'clark griswald')) {
+                alert("ROCK beats SCISSORS\n Perhaps you should choose a different game...")    // Clark Griswald always loses at our Casino
+            } else if (userInBit === 2 && weaponInt === 0) {                //cond. for rock win
                 alert('ROCK beats SCISSORS\nYou WIN');
-            } else if (userInBit === 1 && weaponInt === 2) {   //cond. for paper win
+            } else if (userInBit === 1 && weaponInt === 2) {                //cond. for paper win
                 alert('PAPER beats ROCK\nYou WIN');
-            } else if(userInBit === 0 && weaponInt ===1) {     //cond. for scissors win
+            } else if (userInBit === 0 && weaponInt === 1) {                //cond. for scissors win
                 alert('SCISSORS beats PAPER\nYou WIN');
-            } else if (userInBit === 2 && weaponInt === 1) {   //cond for rock loss
+            } else if (userInBit === 2 && weaponInt === 1) {                //cond. for rock loss
                 alert('PAPER beats ROCK\nYou LOSE');
-            } else if (userInBit === 1 && weaponInt === 0) {   //cond. for paper loss
+            } else if (userInBit === 1 && weaponInt === 0) {                //cond. for paper loss
                 alert('SCISSORS beats PAPER\nYou LOSE');
-            } else if (userInBit === 0 && weaponInt ===2) {     //cond. for scissors loss
+            } else if (userInBit === 0 && weaponInt === 2) {                //cond. for scissors loss
                 alert('ROCK beats SCISSORS\nYou LOSE');
             } else if (userInBit === 2 && (weaponInt !== 1 || weaponInt === 2)) {       //cond. for rock tie
                 alert('ROCK ties ROCK');
@@ -146,6 +160,42 @@
 
 
             again = confirm('Play again?')                      // checks if user want to play again.
+
+        } while (again === true);
+
+    }
+
+//******************************************   Pick a Number 1-10   ****************************************************
+
+    function oneToTen() {
+
+        var again = true;  //  sets the play again var to true for do/while
+
+        do {
+
+            var chalNum = Math.ceil(Math.random() * 10);
+            var userNum = 0;
+
+            do {
+
+                userNum = parseInt(prompt("Pick a number between 1 and 10"));
+
+            } while (userNum === 0);
+
+            if (chalNum !== 7 && (userName.toLowerCase() === 'clark' || userName.toLowerCase() === 'clark griswald')) {
+                alert("7.  You need to try harder...Or listen to EDDIE.");
+                again = confirm('Play again?');
+            } else if (chalNum === 7 && (userName.toLowerCase() === 'clark' || userName.toLowerCase() === 'clark griswald')) {
+                chalNum = Math.ceil(Math.random() * 6)
+                alert(chalNum + ".  You need to try harder...Or listen to EDDIE.");
+                again = confirm('Play again?');
+            } else if (chalNum === userNum) {
+                alert("You guessed: " + userNum + "\nGreat guess the number was " + chalNum + ".  You WIN!!!");
+                again = confirm('Play again?');
+            } else {
+                alert("You guessed: " + userNum + "\nSorry the number was " + chalNum + ".  You Lose...");
+                again = confirm('Play again?');
+            }
 
         } while (again === true);
 
@@ -164,11 +214,12 @@
             do {
                 do {
 
-                    gameSelect = parseInt(prompt('Please select your game :\n 1. Heads or Tails\n 2. Left hand or right hand\n 3. Rock, Paper, Scissors\n 4. Global Thermonuclear War\n 0.  Exit'))
+                    gameSelect = parseInt(prompt('Please select your game :\n 1. Heads or Tails\n 2. Left hand or right hand\n 3. Rock, Paper, Scissors\n 4. Pick a Number 1-10\n 5. Global Thermonuclear War\n 0.  Exit'));
 
                     switch (gameSelect) {
                         case 0:
                             alert('Goodbye!');
+                            window.location.href = 'https://github.com/Alan-Turing-Machine';
                             break;
                         case 1:
                             headsOrTails();
@@ -180,17 +231,24 @@
                             rockPaperScissors();
                             break;
                         case 4:
+                            oneToTen();
+                            break;
+                        case 5:
                             alert("the only winning move is not to play.\nKAAAAABBBBBOOOOOMMMMM!!!!!!");
-                            gameSelect=0;
+                            gameSelect = 0;
                             break;
                     }
 
                 } while (!isNaN(gameSelect) && (gameSelect > 3 || gameSelect < 0))
 
-            } while (gameSelect > 0)
+            } while (gameSelect > 0);
+            {
+                window.location.href = 'https://github.com/Alan-Turing-Machine';
+            }
 
         } else {
             alert('Goodbye!');
+            window.location.href = 'https://github.com/Alan-Turing-Machine';
         }
 
     }
