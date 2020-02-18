@@ -4,7 +4,17 @@
 //***************************************   Welcome Message ************************************************************
     console.log('Welcome to the WACKY CASINO');
 
-    var userName = prompt("Welcome to the WACKY CASINO!  Please enter your name.");
+    do {
+
+        var userName = prompt("Welcome to the WACKY CASINO!  Please enter your name.");
+
+    } while (userName === '')
+
+    if (userName.toLowerCase() === 'clark' || userName.toLowerCase() === 'clark griswald' || userName.toLowerCase() === 'clark w griswald' || userName.toLowerCase() === 'clark w. griswald') {
+        userName = 1;
+    } else if (userName.toLowerCase() === 'wopr')  {
+        userName = 2;
+    }
 
 
 //***************************************   Coin flip game  ************************************************************
@@ -39,10 +49,11 @@
                 coin = 'TAILS';
             }
 
-
-            if (userInBit === 1 && (userName.toLowerCase() === 'clark' || userName.toLowerCase() === 'clark griswald')) {
+            if (userName === 2) {
+                alert('You tied...HOW IS THAT EVEN POSSIBLE???')             //WOPR must never win, otherwise SKYNET is real and mankind is doomed!
+            } else if (userInBit === 1 && (userName === 1)) {
                 alert(" I'm sorry sir, it's... Tails")                       // Clark Griswald always loses at our Casino
-            } else if (userInBit === 0 && (userName.toLowerCase() === 'clark' || userName.toLowerCase() === 'clark griswald')) {
+            } else if (userInBit === 0 && (userName === 1)) {
                 alert(" I'm sorry sir, it's... Heads")                       // Clark Griswald always loses at our Casino
             } else if (userInBit === coinBin) {                         // comparator for win/loss cond.
                 alert('The coin was: ' + coin + ' Winner, Winner, Chicken dinner!!!');
@@ -89,9 +100,11 @@
             }
 
 
-            if (userInBit === 1 && (userName.toLowerCase() === 'clark' || userName.toLowerCase() === 'clark griswald')) {
+            if (userName === 2) {
+                alert('You tied...HOW IS THAT EVEN POSSIBLE???')        //WOPR must never win, otherwise SKYNET is real and mankind is doomed!
+            } else if (userInBit === 1 && (userName === 1)) {
                 alert("It was in my RIGHT hand... Sorry.")              // Clark Griswald always loses at our Casino
-            } else if (userInBit === 0 && (userName.toLowerCase() === 'clark' || userName.toLowerCase() === 'clark griswald')) {
+            } else if (userInBit === 0 && (userName === 1)) {
                 alert("It was in my LEFT hand... Sorry.")               // Clark Griswald always loses at our Casino
             } else if (userInBit === handBin) {                          // comparator for win/loss cond.
                 alert(hand + ' Wow, you are a good guesser!!!');
@@ -132,11 +145,17 @@
             } while (userInBit > 2);                            //checks cond of input to verify proper input
 
 
-            if (userInBit === 2 && (userName.toLowerCase() === 'clark' || userName.toLowerCase() === 'clark griswald')) {
+            if (userInBit === 2 && (userName === 2)) {
+                alert('ROCK ties ROCK.  Winning might be impossible...');                            //WOPR must never win, otherwise SKYNET is real and mankind is doomed!
+            } else if (userInBit === 1 && (userName === 2)) {
+                alert('PAPER ties PAPER.  Winning might be impossible...');                          //WOPR must never win, otherwise SKYNET is real and mankind is doomed!
+            } else if (userInBit === 2 && (userName === 2)) {
+                alert('SCISSORS ties SCISSORS.  Winning might be impossible...');                    //WOPR must never win, otherwise SKYNET is real and mankind is doomed!
+            } else if (userInBit === 2 && (userName === 1)) {
                 alert("PAPER beats ROCK\nPerhaps you should choose a different game...")        // Clark Griswald always loses at our Casino
-            } else if (userInBit === 1 && (userName.toLowerCase() === 'clark' || userName.toLowerCase() === 'clark griswald')) {
+            } else if (userInBit === 1 && (userName === 1)) {
                 alert("SCISSORS beats PAPER\nPerhaps you should choose a different game...")    // Clark Griswald always loses at our Casino
-            } else if (userInBit === 2 && (userName.toLowerCase() === 'clark' || userName.toLowerCase() === 'clark griswald')) {
+            } else if (userInBit === 2 && (userName === 1)) {
                 alert("ROCK beats SCISSORS\n Perhaps you should choose a different game...")    // Clark Griswald always loses at our Casino
             } else if (userInBit === 2 && weaponInt === 0) {                //cond. for rock win
                 alert('ROCK beats SCISSORS\nYou WIN');
@@ -173,19 +192,23 @@
 
         do {
 
-            var chalNum = Math.ceil(Math.random() * 10);
-            var userNum = 0;
+            var chalNum = Math.ceil(Math.random() * 10);                //sets computer challenge number
+            var userNum = 0;                                               //sets user input number to 0 for do while.
 
             do {
 
-                userNum = parseInt(prompt("Pick a number between 1 and 10"));
-
+                userNum = parseInt(prompt("Pick a number between 1 and 10"));       //get user number and val.
+                if (isNaN(userNum)){
+                    parseInt(prompt('Please enter a number.  1-10'));
+                }
             } while (userNum === 0);
 
-            if (chalNum !== 7 && (userName.toLowerCase() === 'clark' || userName.toLowerCase() === 'clark griswald')) {
+            if (userName === 2) {
+                alert('You tied...This is just the weirdest thing...')                          //WOPR must never win, otherwise SKYNET is real and mankind is doomed!
+            } else if (chalNum !== 7 && (userName === 1)) {
                 alert("7.  You need to try harder...Or listen to EDDIE.");
                 again = confirm('Play again?');
-            } else if (chalNum === 7 && (userName.toLowerCase() === 'clark' || userName.toLowerCase() === 'clark griswald')) {
+            } else if (chalNum === 7 && (userName === 1)) {
                 chalNum = Math.ceil(Math.random() * 6)
                 alert(chalNum + ".  You need to try harder...Or listen to EDDIE.");
                 again = confirm('Play again?');
@@ -197,7 +220,7 @@
                 again = confirm('Play again?');
             }
 
-        } while (again === true);
+        } while (again === true);                   //sets exit condition, exit if false.
 
     }
 
@@ -219,7 +242,7 @@
                     switch (gameSelect) {
                         case 0:
                             alert('Goodbye!');
-                            window.location.href = 'https://github.com/Alan-Turing-Machine';
+                            // window.location.href = 'https://github.com/Alan-Turing-Machine';
                             break;
                         case 1:
                             headsOrTails();
@@ -243,18 +266,16 @@
 
             } while (gameSelect > 0);
             {
-                window.location.href = 'https://github.com/Alan-Turing-Machine';
+                // window.location.href = 'https://github.com/Alan-Turing-Machine';
             }
 
         } else {
             alert('Goodbye!');
-            window.location.href = 'https://github.com/Alan-Turing-Machine';
+            // window.location.href = 'https://github.com/Alan-Turing-Machine';
         }
 
     }
 
-
     gameInit()
-
 
 })();
