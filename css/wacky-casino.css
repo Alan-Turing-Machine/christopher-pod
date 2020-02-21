@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap');
+
+:root {
+    --blue: lightskyblue;
+    --green: limegreen;
+}
+
+* {
+    color: var(--blue);
+    text-transform: uppercase;
+}
+
+body {
+    background-color: black;
+    font-family: 'Press Start 2P', cursive;
+}
+section { display: none; }
+section.active { display: block; }
+input {
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+.green { color: var(--green); }
+
+.play-again { display: none; }
+.play-again.active { display: block; }

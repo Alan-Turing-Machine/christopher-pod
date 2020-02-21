@@ -1,282 +1,226 @@
-(function () {
+(function() {
+    "use strict";
 
-    'use strict';
-//***************************************   Welcome Message ************************************************************
-    console.log('Welcome to the WACKY CASINO');
+    logon();
 
-    do {
+    // ******************** Name Prompt ********************
+    function logon() {
+        // Add active class to "Logon", make sure input is empty and focus on input
+        document.querySelector('#logon').setAttribute('class', 'active');
+        document.querySelector('#name').value = "";
+        document.querySelector('#name').focus();
 
-        var userName = prompt("Welcome to the WACKY CASINO!  Please enter your name.");
+        // Assign name to variable and go to "Shall We Play" screen when enter/return button pressed
+        document.querySelector('#name').addEventListener('keyup', function(e) {
+            if(e.key === 'Enter') {
+                e.preventDefault();
+                var logon_name = document.querySelector('#name').value;
 
-    } while (userName === '')
-
-    if (userName.toLowerCase() === 'clark' || userName.toLowerCase() === 'clark griswald' || userName.toLowerCase() === 'clark w griswald' || userName.toLowerCase() === 'clark w. griswald') {
-        userName = 1;
-    } else if (userName.toLowerCase() === 'wopr')  {
-        userName = 2;
+                shallWePlay(logon_name);
+            }
+        });
     }
 
+    // ******************** Shall We Play Prompt ********************
+    function shallWePlay(name) {
+        // Add active class to "Shall We Play" and remove from "Logon"
+        document.querySelector('#logon').removeAttribute('class');
+        document.querySelector('#shall-we-play').setAttribute('class', 'active');
 
-//***************************************   Coin flip game  ************************************************************
-    function headsOrTails() {
+        // Display name, make sure input is empty and focus on input
+        document.querySelector('#shall-we-play .logon-name').innerHTML = name;
+        document.querySelector('#play-game').value = "";
+        document.querySelector('#play-game').focus();
 
-        var again = true;  //  sets the play again var to true for do/while
+        /*
+         * Confirm whether player wants to play a game
+         * If yes, go to "Games List" screen
+         * Else, go to "Goodbye" screen
+         */
+        document.querySelector('#play-game').addEventListener('keyup', function(e) {
+            if(e.key === 'Enter') {
+                e.preventDefault();
+                var play_game_input = document.querySelector('#play-game').value.toLowerCase();
 
-
-        do {
-
-            var coinBin = Math.floor(Math.random() * 2);     // random bit
-            var coin;                                           // coin var declaration
-
-
-            do {
-                var userInBit = 2;                              // sets user input in bin to 2
-
-                var userInput = prompt('Heads or Tails?').toString().toLowerCase();   //gets user input of H/T
-
-                if (userInput === 'heads') {
-                    userInBit--;                                // sets user decision to 1 for while stat and comp
-                    break;
-                } else if (userInput === 'tails') {
-                    userInBit -= 2;                             // sets user decision to 0 for while stat and comp
-                    break;
+                if(play_game_input === 'y') {
+                    showGamesList(name);
+                } else {
+                    document.querySelector('#shall-we-play').classList.remove('active');
+                    goodbye(name);
                 }
-            } while (userInBit > 1);                            //checks cond of input to verify proper input
-
-            if (coinBin === 1) {                                //sets number value to string 'heads'
-                coin = 'HEADS';
-            } else {                                            //sets number value to string 'tails'
-                coin = 'TAILS';
             }
-
-            if (userName === 2) {
-                alert('You tied...HOW IS THAT EVEN POSSIBLE???')             //WOPR must never win, otherwise SKYNET is real and mankind is doomed!
-            } else if (userInBit === 1 && (userName === 1)) {
-                alert(" I'm sorry sir, it's... Tails")                       // Clark Griswald always loses at our Casino
-            } else if (userInBit === 0 && (userName === 1)) {
-                alert(" I'm sorry sir, it's... Heads")                       // Clark Griswald always loses at our Casino
-            } else if (userInBit === coinBin) {                         // comparator for win/loss cond.
-                alert('The coin was: ' + coin + ' Winner, Winner, Chicken dinner!!!');
-            } else {
-                alert(" I'm sorry it's..." + coin)
-            }
-
-            again = confirm('Play again?')                      // checks if user want to play again.
-
-        } while (again === true);
-
+        });
     }
 
-//***************************************   Left or Right game  ********************************************************
+    // ******************** Show Games List ********************
+    function showGamesList(name) {
+        /*
+         * Add active class to "Games List", remove active from "Shall We Play",
+         * make sure input is empty and focus on input
+         */
+        document.querySelector('#shall-we-play').removeAttribute('class');
+        document.querySelector('#games-list').setAttribute('class', 'active');
+        document.querySelector('#game-option').value = "";
+        document.querySelector('#game-option').focus();
 
-    function leftOrRight() {
+        /*
+         * Player is to choose from the list of games (1 - 6)
+         * Game is displayed depening on the user's choice
+         * Player is to enter 0 if they wish to exit the game
+         */
+        document.querySelector('#game-option').addEventListener('keyup', function(e) {
+            var game_option = document.querySelector('#game-option').value;
 
-        var again = true;  //  sets the play again var to true for do/while
+            if(e.key === 'Enter' && !isNaN(parseFloat(game_option))) {
+                e.preventDefault();
 
-        do {
-
-            var handBin = Math.floor(Math.random() * 2);     // random bit
-            var hand;                                           // hand var declaration
-
-
-            do {
-                var userInBit = 2;                              // sets user input in bin to 2
-
-                var userInput = prompt("Which hand is it in?\nLeft hand or Right hand?\n(You do not need to add 'hand')").toString().toLowerCase();   //gets user input of L/R
-
-                if (userInput === 'left') {
-                    userInBit--;                                // sets user decision to 1 for while stat and comp
-                    break;
-                } else if (userInput === 'right') {
-                    userInBit -= 2;                             // sets user decision to 0 for while stat and comp
-                    break;
+                switch(parseFloat(game_option)) {
+                    case 0:
+                        document.querySelector('#games-list').removeAttribute('class');
+                        goodbye(name);
+                        break;
+                    case 1:
+                        war(name);
+                        break;
+                    case 2:
+                        rockPaperScissors(name);
+                        break;
+                    case 3:
+                        document.querySelector('#games-list').removeAttribute('class');
+                        headsOrTails(name);
+                        break;
+                    case 4:
+                        leftOrRight(name);
+                        break;
+                    case 5:
+                        oneToTen(name);
+                        break;
+                    case 6:
+                        document.querySelector('#games-list').removeAttribute('class');
+                        globalThermonuclearWar(name);
+                        break;
+                    default:
+                        break;
                 }
-            } while (userInBit > 1);                            //checks cond of input to verify proper input
-
-             if (handBin === 1) {                                //sets number value to string 'left'
-                hand = 'LEFT';
-            } else {                                            //sets number value to string 'right'
-                hand = 'RIGHT';
             }
+        });
+    }
 
+    // ******************** Goodbye ********************
+    function goodbye(name) {
+        // Add active class to "Goodbye" and display name
+        document.querySelector('#goodbye').setAttribute('class', 'active');
+        document.querySelector('#goodbye .logon-name').innerHTML = name;
 
-            if (userName === 2) {
-                alert('You tied...HOW IS THAT EVEN POSSIBLE???')        //WOPR must never win, otherwise SKYNET is real and mankind is doomed!
-            } else if (userInBit === 1 && (userName === 1)) {
-                alert("It was in my RIGHT hand... Sorry.")              // Clark Griswald always loses at our Casino
-            } else if (userInBit === 0 && (userName === 1)) {
-                alert("It was in my LEFT hand... Sorry.")               // Clark Griswald always loses at our Casino
-            } else if (userInBit === handBin) {                          // comparator for win/loss cond.
-                alert(hand + ' Wow, you are a good guesser!!!');
-            } else {
-                alert(" I'm sorry it's..." + hand + ', they must have switched hands while you were guessing!!!')
-            }
+        // After 5 seconds, player is redirected to "Logon" screen
+        setTimeout(function() {
+            document.querySelector('#goodbye').removeAttribute('class');
+            logon();
+        }, 5000);
+    }
 
-            again = confirm('Play again?')                      // checks if user want to play again.
-
-        } while (again === true);
+    // ******************** War ********************
+    function war(name) {
 
     }
 
+    // ******************** Rock, Paper, Scissors ********************
+    function rockPaperScissors(name) {
 
-//***************************************   Rock, Paper, Scissors   ****************************************************
+    }
 
-    function rockPaperScissors() {
+    // ******************** Coin Toss / Heads or Tails ********************
+    function headsOrTails(name) {
+        /*
+        * Add active class to "Coin Toss"
+        * make sure input is empty and focus on input
+        */
+        document.querySelector('#coin-toss').setAttribute('class', 'active');
+        document.querySelector('#coin-option').value = "";
+        document.querySelector('.coin-toss-results').innerHTML = "";
+        document.querySelector('.play-again').classList.remove('active');
+        document.querySelector('#coin-toss-again').value = "";
+        document.querySelector('#coin-option').focus();
 
-        var again = true;  //  sets the play again var to true for do/while
+        document.querySelector('#coin-option').addEventListener('keyup', function(e) {
+            var coin_option = document.querySelector('#coin-option').value.toLowerCase();
 
-        do {
+            if(e.key === 'Enter') {
+                e.preventDefault();
 
-            var weaponInt = Math.floor(Math.random() * 3);     // random bit
-
-
-            do {
-                var userInBit = 3;                              // sets user input in bin to 3
-
-                var userInput = prompt("Choose your weapon...Rock, Paper, or Scissors?").toString().toLowerCase();   //gets user input of R/P/S
-
-                if (userInput === 'rock') {
-                    userInBit--;                                // sets user decision to 2 for while stat and comp
-                } else if (userInput === 'paper') {
-                    userInBit -= 2;                               // sets user decision to 1 for while stat and comp
-                } else if (userInput === 'scissors') {
-                    userInBit -= 3;                             // sets user decision to 0 for while stat and comp
+                if(coin_option.toLowerCase() === 'heads' || coin_option.toLowerCase() === 'tails') {
+                    flipCoin(coin_option, name);
+                } else {
+                    document.querySelector('#coin-option').value = "";
+                    document.querySelector('#coin-option').focus();
                 }
-            } while (userInBit > 2);                            //checks cond of input to verify proper input
-
-
-            if (userInBit === 2 && (userName === 2)) {
-                alert('ROCK ties ROCK.  Winning might be impossible...');                            //WOPR must never win, otherwise SKYNET is real and mankind is doomed!
-            } else if (userInBit === 1 && (userName === 2)) {
-                alert('PAPER ties PAPER.  Winning might be impossible...');                          //WOPR must never win, otherwise SKYNET is real and mankind is doomed!
-            } else if (userInBit === 2 && (userName === 2)) {
-                alert('SCISSORS ties SCISSORS.  Winning might be impossible...');                    //WOPR must never win, otherwise SKYNET is real and mankind is doomed!
-            } else if (userInBit === 2 && (userName === 1)) {
-                alert("PAPER beats ROCK\nPerhaps you should choose a different game...")        // Clark Griswald always loses at our Casino
-            } else if (userInBit === 1 && (userName === 1)) {
-                alert("SCISSORS beats PAPER\nPerhaps you should choose a different game...")    // Clark Griswald always loses at our Casino
-            } else if (userInBit === 2 && (userName === 1)) {
-                alert("ROCK beats SCISSORS\n Perhaps you should choose a different game...")    // Clark Griswald always loses at our Casino
-            } else if (userInBit === 2 && weaponInt === 0) {                //cond. for rock win
-                alert('ROCK beats SCISSORS\nYou WIN');
-            } else if (userInBit === 1 && weaponInt === 2) {                //cond. for paper win
-                alert('PAPER beats ROCK\nYou WIN');
-            } else if (userInBit === 0 && weaponInt === 1) {                //cond. for scissors win
-                alert('SCISSORS beats PAPER\nYou WIN');
-            } else if (userInBit === 2 && weaponInt === 1) {                //cond. for rock loss
-                alert('PAPER beats ROCK\nYou LOSE');
-            } else if (userInBit === 1 && weaponInt === 0) {                //cond. for paper loss
-                alert('SCISSORS beats PAPER\nYou LOSE');
-            } else if (userInBit === 0 && weaponInt === 2) {                //cond. for scissors loss
-                alert('ROCK beats SCISSORS\nYou LOSE');
-            } else if (userInBit === 2 && (weaponInt !== 1 || weaponInt === 2)) {       //cond. for rock tie
-                alert('ROCK ties ROCK');
-            } else if (userInBit === 1 && (weaponInt !== 0 || weaponInt === 1)) {       //cond. for paper tie
-                alert('PAPER ties PAPER');
-            } else if (userInBit === 0 && (weaponInt !== 2 || weaponInt === 0)) {       //cond. for scissors tie
-                alert('SCISSORS ties SCISSORS');
             }
+        });
 
+        function flipCoin(coin, name) {
+            var coinFlip = Math.floor(Math.random() * 2);
 
-            again = confirm('Play again?')                      // checks if user want to play again.
-
-        } while (again === true);
-
-    }
-
-//******************************************   Pick a Number 1-10   ****************************************************
-
-    function oneToTen() {
-
-        var again = true;  //  sets the play again var to true for do/while
-
-        do {
-
-            var chalNum = Math.ceil(Math.random() * 10);                //sets computer challenge number
-
-            var userNum = '';                                               //sets user input number to 0 for do while.
-
-            do {
-
-                userNum = parseInt(prompt("Pick a number between 1 and 10"));       //get user number and val.
-
-            } while (userNum === '' || isNaN(userNum) === true || (userNum < 1 || userNum > 10));
-
-            if (userName === 2) {
-                alert('You tied...This is just the weirdest thing...')                          //WOPR must never win, otherwise SKYNET is real and mankind is doomed!
-                again = confirm('Play again?');
-
-            } else if (chalNum !== 7 && (userName === 1)) {
-                alert("7.  You need to try harder...Or listen to EDDIE.");
-                again = confirm('Play again?');
-            } else if (chalNum === 7 && (userName === 1)) {
-                chalNum = Math.ceil(Math.random() * 6)
-                alert(chalNum + ".  You need to try harder...Or listen to EDDIE.");
-                again = confirm('Play again?');
-            } else if (chalNum === userNum) {
-                alert("You guessed: " + userNum + "\nGreat guess the number was " + chalNum + ".  You WIN!!!");
-                again = confirm('Play again?');
+            if(coinFlip === 1) {
+                coinFlip = 'heads';
             } else {
-                alert("You guessed: " + userNum + "\nSorry the number was " + chalNum + ".  You Lose...");
-                again = confirm('Play again?');
+                coinFlip = 'tails';
             }
 
-        } while (again === true);                   //sets exit condition, exit if false.
-
-    }
-
-//***************************************  Console Init     ************************************************************
-
-    function gameInit() {
-
-        var toPlay = confirm('SHALL WE PAY A GAME?');
-
-        if (toPlay === true) {
-
-            var gameSelect = 0;
-
-            do {
-                do {
-
-                    gameSelect = parseInt(prompt('Please select your game :\n 1. Heads or Tails\n 2. Left hand or right hand\n 3. Rock, Paper, Scissors\n 4. Pick a Number 1-10\n 5. Global Thermonuclear War\n 0.  Exit'));
-
-                    switch (gameSelect) {
-                        case 0:
-                            alert('Goodbye!');
-                            // window.location.href = 'https://github.com/Alan-Turing-Machine';
-                            break;
-                        case 1:
-                            headsOrTails();
-                            break;
-                        case 2:
-                            leftOrRight();
-                            break;
-                        case 3:
-                            rockPaperScissors();
-                            break;
-                        case 4:
-                            oneToTen();
-                            break;
-                        case 5:
-                            alert("the only winning move is not to play.\nKAAAAABBBBBOOOOOMMMMM!!!!!!");
-                            gameSelect = 0;
-                            break;
+            switch(name.toLowerCase()) {
+                case 'clark':
+                    break;
+                case 'wopr':
+                    break;
+                default:
+                    if(coin === coinFlip) {
+                        document.querySelector('.coin-toss-results').innerHTML = "It's " + coin + "! You win!";
+                    } else {
+                        document.querySelector('.coin-toss-results').innerHTML = "Sorry, it's " + coinFlip + ". You lose.";
                     }
 
-                } while (!isNaN(gameSelect) && (gameSelect > 3 || gameSelect < 0))
+                    document.querySelector('.play-again').classList.add('active');
+                    document.querySelector('#coin-toss-again').value = "";
+                    document.querySelector('#coin-toss-again').focus();
 
-            } while (gameSelect > 0);
-            {
-                // window.location.href = 'https://github.com/Alan-Turing-Machine';
+                    var play_again = document.querySelector('#coin-toss-again').addEventListener('keyup', function(e) {
+                        var play_again = document.querySelector('#coin-toss-again').value.toLowerCase();
+
+                        if(e.key === 'Enter') {
+                            e.preventDefault();
+
+                            if(play_again === 'y' || play_again === 'n') {
+                                if(play_again === 'y') {
+                                    document.querySelector('.coin-toss-results').innerHTML = "";
+                                    document.querySelector('.play-again').classList.remove('active');
+                                    headsOrTails(name);
+                                } else {
+                                    document.querySelector('#coin-toss').removeAttribute('class');
+                                    showGamesList(name);
+                                }
+                            }   else {
+                                document.querySelector('#coin-toss-again').value = "";
+                                document.querySelector('#coin-toss-again').focus();
+                            }
+                        }
+                    });
             }
-
-        } else {
-            alert('Goodbye!');
-            // window.location.href = 'https://github.com/Alan-Turing-Machine';
         }
+    }
+
+    // ******************** Guess Which Hand / Left or Right ********************
+    function leftOrRight(name) {
 
     }
 
-    gameInit()
+    // ******************** Pick a Number Between 1 and 10 ********************
+    function oneToTen(name) {
 
+    }
+
+    // ******************** Global Thermonuclear War ********************
+    function globalThermonuclearWar(name) {
+        // Add active class to "Global Thermonuclear War" and display name
+        document.querySelector('#global-thermonuclear-war').setAttribute('class', 'active');
+        document.querySelector('#global-thermonuclear-war .logon-name').innerHTML = name;
+    }
 })();

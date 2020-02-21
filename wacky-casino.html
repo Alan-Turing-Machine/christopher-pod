@@ -2,14 +2,75 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Wacky Casino</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Wacky WOPR Casino</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/wacky-casino.css">
 </head>
 <body>
+<section id="logon"> <!-- Start "Logon" section -->
+    <p>Name: <input type="text" id="name" name="name"></p>
+</section> <!-- End "Logon" section -->
 
-<h1>Welcome to the WACKY Casino</h1>
+<section id="shall-we-play"> <!-- Start "Shall We Play" section -->
+    <p>Greetings, <span class="logon-name"></span><span class="green">_</span></p>
+    <p>Shall we play a game? (Y/N) <input type="text" id="play-game" name="play-game"></p>
+</section> <!-- End "Shall We Play" section -->
 
+<section id="games-list"> <!-- Start "Games List" section -->
+    <h1 class="mb-4 text-center">Welcome to the Wacky WOPR Casino!<span class="green">_</span></h1>
+    <ol class="ml-5">
+        <li>War</li>
+        <li>Rock, Paper, Scissors</li>
+        <li>Coin Toss</li>
+        <li>Guess Which Hand</li>
+        <li>Pick a Number Between 1 and 10</li>
+        <li class="mt-4">Global Thermonuclear War</li>
+        <li class="mt-4" value="0">Exit</li class="mt-3">
+    </ol>
+    <p class="mt-4">Choose a game: <input type="text" id="game-option" name="game-option"></p>
+</section> <!-- End "Games List" section -->
+
+<section id="war"> <!-- Start "War" section -->
+
+</section> <!-- End "War" section -->
+
+<section id="rock-paper-scissors"> <!-- Start "Rock, Paper, Scissors" section -->
+
+</section> <!-- End "Rock, Paper, Scissors" section -->
+
+<section id="coin-toss"> <!-- Start "Coin Toss" section -->
+    <p>Head or Tails? (Heads/Tails) <input type="text" id="coin-option" name="coin-option"></p>
+    <p class="coin-toss-results"></p>
+    <p class="play-again">Play Again? (Y/N)<input type="text" id="coin-toss-again" name="coin-toss-again"></p>
+</section> <!-- End "Coin Toss" section -->
+
+<section id="guess-which-hand"> <!-- Start "Guess Which Hand" section -->
+
+</section> <!-- End "Guess Which Hand" section -->
+
+<section id="pick-a-number"> <!-- Start "Pick a Number" section -->
+
+</section> <!-- End "Pick a Number" section -->
+
+<section id="global-thermonuclear-war"> <!-- Start "Global Thermalnuclear War" section -->
+    <p>Greetings, <span class="logon-name"></span><span class="green">_</span></p>
+    <p>Hello<span class="green">_</span></p>
+    <p>A strange game. The only winning move is not to play.<span class="green">_</span></p>
+    <img src="img/explosion.gif" alt="">
+</section> <!-- End "Global Thermalnuclear War" section -->
+
+<section id="goodbye"> <!-- Start "Goodbye" section -->
+    <p>Goodbye, <span class="logon-name"></span><span class="green">_</span></p>
+</section> <!-- End "Goodbye" section -->
+
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <script src="js/wacky-casino.js"></script>
-
-
 </body>
 </html>
