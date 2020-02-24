@@ -24,5 +24,5 @@ input {
 
 .green { color: var(--green); }
 
-.play-again { display: none; }
-.play-again.active { display: block; }
+[class$='play-again'] { display: none; }
+[class$='play-again'].active { display: block; }
