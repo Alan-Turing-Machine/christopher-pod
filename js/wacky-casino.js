@@ -157,17 +157,17 @@
         });
 
         function rps(rps, name) {
-            var opponentRPS = Math.floor(Math.random() * 2);
+            var dealer_rps = Math.floor(Math.random() * 2);
 
-            switch(opponentRPS) {
+            switch(dealer_rps) {
                 case 0:
-                    opponentRPS = 'rock';
+                    dealer_rps = 'rock';
                     break;
                 case 1:
-                    opponentRPS = 'paper';
+                    dealer_rps = 'paper';
                     break;
                 case 2:
-                    opponentRPS = 'scissors';
+                    dealer_rps = 'scissors';
             }
 
             switch(name.toLowerCase()) {
@@ -176,20 +176,20 @@
                 case 'wopr':
                     break;
                 default:
-                    if(rps === opponentRPS) {
-                        document.querySelector('.rps-results').innerHTML = "You chose: " + rps + ". Your opponent chose: " + opponentRPS + ". It's a tie!";
-                    } else if(rps === 'rock' && opponentRPS === 'paper') {
-                        document.querySelector('.rps-results').innerHTML = "You chose: " + rps + ". Your opponent chose: " + opponentRPS + ". You lose!";
-                    } else if(rps === 'rock' && opponentRPS === 'scissors') {
-                        document.querySelector('.rps-results').innerHTML = "You chose: " + rps + ". Your opponent chose: " + opponentRPS + ". You win!";
-                    } else if(rps === 'paper' && opponentRPS === 'rock') {
-                        document.querySelector('.rps-results').innerHTML = "You chose: " + rps + ". Your opponent chose: " + opponentRPS + ". You win!";
-                    } else if(rps === 'paper' && opponentRPS === 'scissors') {
-                        document.querySelector('.rps-results').innerHTML = "You chose: " + rps + ". Your opponent chose: " + opponentRPS + ". You lose!";
-                    } else if(rps === 'scissors' && opponentRPS === 'rock') {
-                        document.querySelector('.rps-results').innerHTML = "You chose: " + rps + ". Your opponent chose: " + opponentRPS + ". You lose!";
-                    } else if(rps === 'scissors' && opponentRPS === 'paper') {
-                        document.querySelector('.rps-results').innerHTML = "You chose: " + rps + ". Your opponent chose: " + opponentRPS + ". You win!";
+                    if(rps === dealer_rps) {
+                        document.querySelector('.rps-results').innerHTML = "You chose: " + rps + ". The dealer chose: " + dealer_rps + ". It's a tie!";
+                    } else if(rps === 'rock' && dealer_rps === 'paper') {
+                        document.querySelector('.rps-results').innerHTML = "You chose: " + rps + ". The dealer chose: " + dealer_rps + ". You lose!";
+                    } else if(rps === 'rock' && dealer_rps === 'scissors') {
+                        document.querySelector('.rps-results').innerHTML = "You chose: " + rps + ". The dealer chose: " + dealer_rps + ". You win!";
+                    } else if(rps === 'paper' && dealer_rps === 'rock') {
+                        document.querySelector('.rps-results').innerHTML = "You chose: " + rps + ". The dealer chose: " + dealer_rps + ". You win!";
+                    } else if(rps === 'paper' && dealer_rps === 'scissors') {
+                        document.querySelector('.rps-results').innerHTML = "You chose: " + rps + ". The dealer chose: " + dealer_rps + ". You lose!";
+                    } else if(rps === 'scissors' && dealer_rps === 'rock') {
+                        document.querySelector('.rps-results').innerHTML = "You chose: " + rps + ". The dealer chose: " + dealer_rps + ". You lose!";
+                    } else if(rps === 'scissors' && dealer_rps === 'paper') {
+                        document.querySelector('.rps-results').innerHTML = "You chose: " + rps + ". The dealer chose: " + dealer_rps + ". You win!";
                     }
 
                     document.querySelector('.rps-play-again').classList.add('active');
