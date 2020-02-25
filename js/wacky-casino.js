@@ -157,7 +157,7 @@
         });
 
         function rps(rps, name) {
-            var dealer_rps = Math.floor(Math.random() * 2);
+            var dealer_rps = Math.floor(Math.random() * 3);
 
             switch(dealer_rps) {
                 case 0:
