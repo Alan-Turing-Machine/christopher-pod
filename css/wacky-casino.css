@@ -15,14 +15,13 @@ body {
     font-family: 'Press Start 2P', cursive;
 }
 section { display: none; }
-section.active { display: block; }
 input {
     background-color: transparent;
     border: none;
     outline: none;
 }
+.player-card, .dealer-card, .war-results, [class$='play-again'] { display: none; }
 
 .green { color: var(--green); }
 
-[class$='play-again'] { display: none; }
-[class$='play-again'].active { display: block; }
+.active { display: block; }
