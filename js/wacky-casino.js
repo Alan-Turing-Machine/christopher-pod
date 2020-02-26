@@ -125,7 +125,132 @@
 
     // ******************** War ********************
     function war(name) {
+        /*
+        * Add active class to "Rock, Paper, Scissors"
+        * make sure input is empty and focus on input
+        */
+        document.querySelector('#war').setAttribute('class', 'active');
+        document.querySelector('#draw-cards-option').value = "";
+        document.querySelectorAll('.player-card, .dealer-card, .war-results, .war-play-again').forEach(function(el) {
+            el.classList.remove('active');
+        });
+        document.querySelector('#war-again').value = "";
+        document.querySelector('#draw-cards-option').focus();
 
+        document.querySelector('#draw-cards-option').addEventListener(('keyup'), function(e) {
+            var draw_option = document.querySelector('#draw-cards-option').value.toLowerCase();
+
+            if(e.key === 'Enter') {
+                e.preventDefault();
+
+                if(draw_option === 'y' || draw_option === 'n') {
+                    if(draw_option === 'y') {
+                        drawCards();
+                    } else {
+                        document.querySelector('#war').removeAttribute('class');
+                        showGamesList(name);
+                    }
+                } else {
+                    document.querySelector('#draw-cards-option').value = "";
+                    document.querySelector('#draw-cards-option').focus();
+                }
+            }
+        });
+
+        function drawCards() {
+            var cards = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+            var suits = ['C', 'D', 'H', 'S'];
+            var deck = [];
+
+            suits.forEach(function(suit) {
+                cards.forEach(function(card) {
+                    deck.push({
+                        card: card,
+                        suit: suit
+                    });
+                });
+            });
+
+            switch(name.toLowerCase()) {
+                case 'clark':
+                    break;
+                case 'wopr':
+                    break;
+                default:
+                    var random_num_player = Math.floor(Math.random() * 52);
+                    var random_num_dealer = Math.floor(Math.random() * 52);
+                    var player_card = deck[random_num_player];
+                    var dealer_card = deck[random_num_dealer];
+
+                    document.querySelectorAll('.player-card, .dealer-card, .war-results').forEach(function(el) {
+                        el.classList.add('active');
+                    });
+
+                    document.querySelector('.player-card').innerHTML = name + ': ' + cardFace(player_card.card) + player_card.suit;
+                    document.querySelector('.dealer-card').innerHTML = 'Dealer: ' + cardFace(dealer_card.card) + dealer_card.suit;
+
+                    if(player_card.card > dealer_card.card) {
+                        document.querySelector('.war-results').innerHTML = name + ' wins!';
+                    } else if(player_card.card < dealer_card.card) {
+                        document.querySelector('.war-results').innerHTML = 'Dealer wins!';
+                    } else {
+                        document.querySelector('.player-card').innerHTML += ' ... ';
+                        document.querySelector('.dealer-card').innerHTML += ' ... ';
+                        drawCards();
+                    }
+
+                    document.querySelector('.war-play-again').classList.add('active');
+                    document.querySelector('#war-again').value = "";
+                    document.querySelector('#war-again').focus();
+
+                    document.querySelector('#war-again').addEventListener('keyup', function(e) {
+                        var play_again = document.querySelector('#war-again').value.toLowerCase();
+
+                        if(e.key === 'Enter') {
+                            e.preventDefault();
+
+                            if(play_again === 'y' || play_again === 'n') {
+                                if(play_again === 'y') {
+                                    document.querySelector('.player-card').innerHTML = "";
+                                    document.querySelector('.dealer-card').innerHTML = "";
+                                    document.querySelector('.war-results').innerHTML = "";
+                                    document.querySelectorAll('.player-card, .dealer-card, .war-results, .war-play-again').forEach(function(el) {
+                                        el.classList.remove('active');
+                                    });
+                                    war(name);
+                                } else {
+                                    document.querySelector('#war').removeAttribute('class');
+                                    showGamesList(name);
+                                }
+                            }   else {
+                                document.querySelector('#war-again').value = "";
+                                document.querySelector('#war-again').focus();
+                            }
+                        }
+                    });
+            }
+
+            function cardFace(card) {
+                switch(card) {
+                    case 11:
+                        card = 'J';
+                        break;
+                    case 12:
+                        card = 'Q';
+                        break;
+                    case 13:
+                        card = 'K';
+                        break;
+                    case 14:
+                        card = 'A';
+                        break;
+                    default:
+                        break;
+                }
+
+                return card;
+            }
+        }
     }
 
     // ******************** Rock, Paper, Scissors ********************
