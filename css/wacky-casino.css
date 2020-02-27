@@ -20,7 +20,7 @@ input {
     border: none;
     outline: none;
 }
-.player-card, .dealer-card, .war-results, [class$='play-again'] { display: none; }
+.draw-cards, .player-card, .dealer-card, .war-results, [class$='play-again'] { display: none; }
 
 .green { color: var(--green); }
 
