@@ -126,10 +126,11 @@
     // ******************** War ********************
     function war(name) {
         /*
-        * Add active class to "Rock, Paper, Scissors"
+        * Add active class to "War"
         * make sure input is empty and focus on input
         */
         document.querySelector('#war').setAttribute('class', 'active');
+        document.querySelector('.draw-cards').classList.add('active');
         document.querySelector('#draw-cards-option').value = "";
         document.querySelectorAll('.player-card, .dealer-card, .war-results, .war-play-again').forEach(function(el) {
             el.classList.remove('active');
@@ -145,6 +146,9 @@
 
                 if(draw_option === 'y' || draw_option === 'n') {
                     if(draw_option === 'y') {
+                        document.querySelector('.player-card').innerHTML = name + ": ";
+                        document.querySelector('.dealer-card').innerHTML = "Dealer: ";
+                        document.querySelector('.war-results').innerHTML = "";
                         drawCards();
                     } else {
                         document.querySelector('#war').removeAttribute('class');
@@ -157,37 +161,61 @@
             }
         });
 
-        function drawCards() {
-            var cards = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
-            var suits = ['C', 'D', 'H', 'S'];
-            var deck = [];
+        var cards = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+        var suits = ['C', 'D', 'H', 'S'];
+        var deck = [];
 
-            suits.forEach(function(suit) {
-                cards.forEach(function(card) {
-                    deck.push({
-                        card: card,
-                        suit: suit
-                    });
+        suits.forEach(function(suit) {
+            cards.forEach(function(card) {
+                deck.push({
+                    card: card,
+                    suit: suit
                 });
             });
+        });
 
+        function cardFace(card) {
+            switch(card) {
+                case 11:
+                    card = 'J';
+                    break;
+                case 12:
+                    card = 'Q';
+                    break;
+                case 13:
+                    card = 'K';
+                    break;
+                case 14:
+                    card = 'A';
+                    break;
+                default:
+                    break;
+            }
+
+            return card;
+        }
+
+        function drawCards() {
             switch(name.toLowerCase()) {
                 case 'clark':
                     break;
                 case 'wopr':
                     break;
                 default:
-                    var random_num_player = Math.floor(Math.random() * 52);
-                    var random_num_dealer = Math.floor(Math.random() * 52);
+                    var random_num_player = Math.floor(Math.random() * deck.length);
                     var player_card = deck[random_num_player];
+                    deck.splice(random_num_player, 1)
+
+                    var random_num_dealer = Math.floor(Math.random() * deck.length);
                     var dealer_card = deck[random_num_dealer];
+                    deck.splice(random_num_dealer, 1)
 
                     document.querySelectorAll('.player-card, .dealer-card, .war-results').forEach(function(el) {
                         el.classList.add('active');
                     });
 
-                    document.querySelector('.player-card').innerHTML = name + ': ' + cardFace(player_card.card) + player_card.suit;
-                    document.querySelector('.dealer-card').innerHTML = 'Dealer: ' + cardFace(dealer_card.card) + dealer_card.suit;
+                    document.querySelector('.player-card').innerHTML += cardFace(player_card.card) + player_card.suit;
+                    document.querySelector('.dealer-card').innerHTML += cardFace(dealer_card.card) + dealer_card.suit;
 
                     if(player_card.card > dealer_card.card) {
                         document.querySelector('.war-results').innerHTML = name + ' wins!';
@@ -211,13 +239,13 @@
 
                             if(play_again === 'y' || play_again === 'n') {
                                 if(play_again === 'y') {
-                                    document.querySelector('.player-card').innerHTML = "";
-                                    document.querySelector('.dealer-card').innerHTML = "";
+                                    document.querySelector('.player-card').innerHTML = name + ": ";
+                                    document.querySelector('.dealer-card').innerHTML = "Dealer: ";
                                     document.querySelector('.war-results').innerHTML = "";
-                                    document.querySelectorAll('.player-card, .dealer-card, .war-results, .war-play-again').forEach(function(el) {
+                                    document.querySelectorAll('.draw-cards, .player-card, .dealer-card, .war-results, .war-play-again').forEach(function(el) {
                                         el.classList.remove('active');
                                     });
-                                    war(name);
+                                    drawCards();
                                 } else {
                                     document.querySelector('#war').removeAttribute('class');
                                     showGamesList(name);
@@ -228,27 +256,6 @@
                             }
                         }
                     });
-            }
-
-            function cardFace(card) {
-                switch(card) {
-                    case 11:
-                        card = 'J';
-                        break;
-                    case 12:
-                        card = 'Q';
-                        break;
-                    case 13:
-                        card = 'K';
-                        break;
-                    case 14:
-                        card = 'A';
-                        break;
-                    default:
-                        break;
-                }
-
-                return card;
             }
         }
     }
@@ -579,5 +586,8 @@
         // Add active class to "Global Thermonuclear War" and display name
         document.querySelector('#global-thermonuclear-war').setAttribute('class', 'active');
         document.querySelector('#global-thermonuclear-war .logon-name').innerHTML = name;
+
+        var explosionAudio = new Audio('audio/Bomb_Exploding-Sound_Explorer-68256487.wav');
+        explosionAudio.play();
     }
 })();
