@@ -11,82 +11,89 @@
     <link rel="stylesheet" href="css/wacky-casino.css">
 </head>
 <body>
-<section id="logon"> <!-- Start "Logon" section -->
-    <p>Name: <input type="text" id="name" name="name"></p>
-</section> <!-- End "Logon" section -->
+    <div class="container-fluid p-4">
+        <section id="logon"> <!-- Start "Logon" section -->
+            <p>Name: <input type="text" id="name" name="name"></p>
+        </section> <!-- End "Logon" section -->
 
-<section id="shall-we-play"> <!-- Start "Shall We Play" section -->
-    <p>Greetings, <span class="logon-name"></span><span class="green">_</span></p>
-    <p>Shall we play a game? (Y/N) <input type="text" id="play-game" name="play-game"></p>
-</section> <!-- End "Shall We Play" section -->
+        <section id="shall-we-play"> <!-- Start "Shall We Play" section -->
+            <p>Greetings, <span class="logon-name"></span><span class="green">_</span></p>
+            <p>Shall we play a game? (Y/N) <input type="text" id="play-game" name="play-game"></p>
+        </section> <!-- End "Shall We Play" section -->
 
-<section id="games-list"> <!-- Start "Games List" section -->
-    <h1 class="mb-4 text-center">Welcome to the Wacky WOPR Casino!<span class="green">_</span></h1>
-    <ol class="ml-5">
-        <li>War</li>
-        <li>Rock, Paper, Scissors</li>
-        <li>Coin Toss</li>
-        <li>Guess Which Hand</li>
-        <li>Pick a Number Between 1 and 10</li>
-        <li class="mt-4">Global Thermonuclear War</li>
-        <li class="mt-4" value="0">Exit</li>
-    </ol>
-    <p class="mt-4">Choose a game: <input type="text" id="game-option" name="game-option"></p>
-</section> <!-- End "Games List" section -->
+        <section id="games-list"> <!-- Start "Games List" section -->
+            <h1 class="mb-4 text-center">Welcome to the Wacky WOPR Casino!<span class="green">_</span></h1>
+            <ol class="ml-5">
+                <li>War</li>
+                <li>Rock, Paper, Scissors</li>
+                <li>Coin Toss</li>
+                <li>Guess Which Hand</li>
+                <li>Pick a Number Between 1 and 10</li>
+                <li class="mt-4">Global Thermonuclear War</li>
+                <li class="mt-4" value="0">Exit</li>
+            </ol>
+            <p class="mt-4">Choose a game: <input type="text" id="game-option" name="game-option"></p>
+        </section> <!-- End "Games List" section -->
 
-<section id="war"> <!-- Start "War" section -->
-    <h2>War</h2>
-    <p class="draw-cards">Draw? (Y/N)<input type="text" id="draw-cards-option" name="draw-cards-option"></p>
-    <p class="player-card"></p>
-    <p class="dealer-card"></p>
-    <p class="war-results"></p>
-    <p class="war-play-again">Play Again? (Y/N)<input type="text" id="war-again" name="war-again"></p>
-</section> <!-- End "War" section -->
+        <section id="war"> <!-- Start "War" section -->
+            <h2>War</h2>
+            <p class="draw-cards">Draw? (Y/N)<input type="text" id="draw-cards-option" name="draw-cards-option"></p>
+            <p class="player-card"></p>
+            <p class="dealer-card"></p>
+            <p class="war-results"></p>
+            <p class="war-play-again">Play Again? (Y/N)<input type="text" id="war-again" name="war-again"></p>
+        </section> <!-- End "War" section -->
 
-<section id="rock-paper-scissors"> <!-- Start "Rock, Paper, Scissors" section -->
-    <h2>Rock, Paper, Scissors</h2>
-    <p>Rock, paper, scissors? <input type="text" id="rps-option" name="rps-option"></p>
-    <p class="rps-results"></p>
-    <p class="rps-play-again">Play Again? (Y/N)<input type="text" id="rps-again" name="rps-again"></p>
-</section> <!-- End "Rock, Paper, Scissors" section -->
+        <section id="rock-paper-scissors"> <!-- Start "Rock, Paper, Scissors" section -->
+            <h2>Rock, Paper, Scissors</h2>
+            <p>Rock, paper, scissors? <input type="text" id="rps-option" name="rps-option"></p>
+            <p class="rps-results"></p>
+            <p class="rps-play-again">Play Again? (Y/N)<input type="text" id="rps-again" name="rps-again"></p>
+        </section> <!-- End "Rock, Paper, Scissors" section -->
 
-<section id="coin-toss"> <!-- Start "Coin Toss" section -->
-    <h2>Coin Toss</h2>
-    <p>Head or Tails? (Heads/Tails) <input type="text" id="coin-option" name="coin-option"></p>
-    <p class="coin-toss-results"></p>
-    <p class="coin-play-again">Play Again? (Y/N)<input type="text" id="coin-toss-again" name="coin-toss-again"></p>
-</section> <!-- End "Coin Toss" section -->
+        <section id="coin-toss"> <!-- Start "Coin Toss" section -->
+            <h2>Coin Toss</h2>
+            <p>Head or Tails? (Heads/Tails) <input type="text" id="coin-option" name="coin-option"></p>
+            <p class="coin-toss-results"></p>
+            <p class="coin-play-again">Play Again? (Y/N)<input type="text" id="coin-toss-again" name="coin-toss-again"></p>
+        </section> <!-- End "Coin Toss" section -->
 
-<section id="guess-which-hand"> <!-- Start "Guess Which Hand" section -->
-    <h2>Guess Which Hand</h2>
-    <p>Guess which hand: (Left/Right) <input type="text" id="hand-option" name="hand-option"></p>
-    <p class="which-hand-results"></p>
-    <p class="hand-play-again">Play Again? (Y/N)<input type="text" id="which-hand-again" name="which-hand-again"></p>
-</section> <!-- End "Guess Which Hand" section -->
+        <section id="guess-which-hand"> <!-- Start "Guess Which Hand" section -->
+            <h2>Guess Which Hand</h2>
+            <p>Guess which hand: (Left/Right) <input type="text" id="hand-option" name="hand-option"></p>
+            <p class="which-hand-results"></p>
+            <p class="hand-play-again">Play Again? (Y/N)<input type="text" id="which-hand-again" name="which-hand-again"></p>
+        </section> <!-- End "Guess Which Hand" section -->
 
-<section id="pick-a-number"> <!-- Start "Pick a Number" section -->
-    <h2>Guess the Number</h2>
-    <p>Pick a number between 1 and 10:  <input type="text" id="one-ten-option" name="one-ten-option"></p>
-    <p class="one-ten-results"></p>
-    <p class="one-ten-play-again">Play Again? (Y/N)<input type="text" id="one-ten-again" name="one-ten-again"></p>
-</section> <!-- End "Pick a Number" section -->
+        <section id="pick-a-number"> <!-- Start "Pick a Number" section -->
+            <h2>Guess the Number</h2>
+            <p>Pick a number between 1 and 10:  <input type="text" id="one-ten-option" name="one-ten-option"></p>
+            <p class="one-ten-results"></p>
+            <p class="one-ten-play-again">Play Again? (Y/N)<input type="text" id="one-ten-again" name="one-ten-again"></p>
+        </section> <!-- End "Pick a Number" section -->
 
-<section id="global-thermonuclear-war"> <!-- Start "Global Thermalnuclear War" section -->
-    <h2>Global Thermalnuclear War</h2>
-    <p>Greetings, <span class="logon-name"></span><span class="green">_</span></p>
-    <p>Hello<span class="green">_</span></p>
-    <p>A strange game. The only winning move is not to play.<span class="green">_</span></p>
-    <img src="img/explosion.gif" alt="Mushroom cloud" class="img-fluid">
-</section> <!-- End "Global Thermalnuclear War" section -->
+        <section id="global-thermonuclear-war"> <!-- Start "Global Thermalnuclear War" section -->
+            <h2>Global Thermalnuclear War</h2>
+            <p>Greetings, <span class="logon-name"></span><span class="green">_</span></p>
+            <p>Hello<span class="green">_</span></p>
+            <p>A strange game. The only winning move is not to play.<span class="green">_</span></p>
+            <img src="img/explosion.gif" alt="Mushroom cloud" class="img-fluid">
+        </section> <!-- End "Global Thermalnuclear War" section -->
 
-<section id="goodbye"> <!-- Start "Goodbye" section -->
-    <p>Goodbye, <span class="logon-name"></span><span class="green">_</span></p>
-</section> <!-- End "Goodbye" section -->
+        <section id="goodbye"> <!-- Start "Goodbye" section -->
+            <p>Goodbye, <span class="logon-name"></span><span class="green">_</span></p>
+        </section> <!-- End "Goodbye" section -->
+    </div>
 
-<!-- JS -->
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-<script src="js/wacky-casino.js"></script>
+    <footer class="p-3 fixed-bottom text-center">
+        <a href="https://github.com/Alan-Turing-Machine/christopher-pod" target="_blank"><img src="img/github.png" class="github" alt="Github logo"></a>
+        <a href="https://www.youtube.com/watch?v=8jt8OgNEUgk" target="_blank"><img src="img/youtube.png" class="youtube" alt="Youtube logo"></a>
+    </footer>
+
+    <!-- JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="js/wacky-casino.js"></script>
 </body>
 </html>

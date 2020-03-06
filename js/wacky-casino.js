@@ -198,17 +198,73 @@
         function drawCards() {
             switch(name.toLowerCase()) {
                 case 'clark':
+                case 'clark griswald':
+                case 'clark w griswald':
+                case 'clark w. griswald':
+                    var random_card_dealer = Math.floor(Math.random() * deck.length);
+                    var dealer_card = deck[random_card_dealer];
+                    deck.splice(random_card_dealer, 1);
+
+                    var clark_card = deck[random_card_dealer - 1];
+                    deck.splice(random_card_dealer - 1, 1);
+
+                    document.querySelectorAll('.player-card, .dealer-card, .war-results').forEach(function(el) {
+                        el.classList.add('active');
+                    });
+
+                    document.querySelector('.player-card').innerHTML += cardFace(clark_card.card) + clark_card.suit;
+                    document.querySelector('.dealer-card').innerHTML += cardFace(dealer_card.card) + dealer_card.suit;
+
+                    if(clark_card.card < dealer_card.card) {
+                        document.querySelector('.war-results').innerHTML = 'Dealer wins!';
+                    }
                     break;
                 case 'wopr':
+                    var count = 0;
+
+                    document.querySelectorAll('.player-card, .dealer-card, .war-results').forEach(function(el) {
+                        el.classList.add('active');
+                    });
+
+                    for(var i = 0; i < 5; i++) {
+                        var random_card = Math.floor(Math.random() * cards.length);
+                        var random_wopr_suit = Math.floor(Math.random() * suits.length);
+                        var random_dealer_suit = Math.floor(Math.random() * suits.length);
+
+                        var wopr_card = cardFace(cards[random_card]) + suits[random_wopr_suit];
+                        var dealer_card = cardFace(cards[random_card]) + suits[random_dealer_suit];
+
+                        if(wopr_card !== dealer_card) {
+                            document.querySelector('.player-card').innerHTML += wopr_card;
+                            document.querySelector('.dealer-card').innerHTML += dealer_card;
+                        } else {
+                            var random_card = Math.floor(Math.random() * cards.length);
+                            var random_wopr_suit = Math.floor(Math.random() * suits.length);
+                            var random_dealer_suit = Math.floor(Math.random() * suits.length);
+
+                            var wopr_card = cardFace(cards[random_card]) + suits[random_wopr_suit];
+                            var dealer_card = cardFace(cards[random_card]) + suits[random_dealer_suit];
+
+                            document.querySelector('.player-card').innerHTML += wopr_card;
+                            document.querySelector('.dealer-card').innerHTML += dealer_card;
+                        }
+
+                        if(i < 4) {
+                            document.querySelector('.player-card').innerHTML += ' ... ';
+                            document.querySelector('.dealer-card').innerHTML += ' ... ';
+                        }
+                    }
+
+                    document.querySelector('.war-results').innerHTML = 'Seems like we\'ve reached a stalemate...';
                     break;
                 default:
-                    var random_num_player = Math.floor(Math.random() * deck.length);
+                    var random_card_player = Math.floor(Math.random() * deck.length);
                     var player_card = deck[random_num_player];
-                    deck.splice(random_num_player, 1)
+                    deck.splice(random_card_player, 1);
 
-                    var random_num_dealer = Math.floor(Math.random() * deck.length);
+                    var random_card_dealer = Math.floor(Math.random() * deck.length);
                     var dealer_card = deck[random_num_dealer];
-                    deck.splice(random_num_dealer, 1)
+                    deck.splice(random_card_dealer, 1);
 
                     document.querySelectorAll('.player-card, .dealer-card, .war-results').forEach(function(el) {
                         el.classList.add('active');
@@ -226,37 +282,37 @@
                         document.querySelector('.dealer-card').innerHTML += ' ... ';
                         drawCards();
                     }
-
-                    document.querySelector('.war-play-again').classList.add('active');
-                    document.querySelector('#war-again').value = "";
-                    document.querySelector('#war-again').focus();
-
-                    document.querySelector('#war-again').addEventListener('keyup', function(e) {
-                        var play_again = document.querySelector('#war-again').value.toLowerCase();
-
-                        if(e.key === 'Enter') {
-                            e.preventDefault();
-
-                            if(play_again === 'y' || play_again === 'n') {
-                                if(play_again === 'y') {
-                                    document.querySelector('.player-card').innerHTML = name + ": ";
-                                    document.querySelector('.dealer-card').innerHTML = "Dealer: ";
-                                    document.querySelector('.war-results').innerHTML = "";
-                                    document.querySelectorAll('.draw-cards, .player-card, .dealer-card, .war-results, .war-play-again').forEach(function(el) {
-                                        el.classList.remove('active');
-                                    });
-                                    drawCards();
-                                } else {
-                                    document.querySelector('#war').removeAttribute('class');
-                                    showGamesList(name);
-                                }
-                            }   else {
-                                document.querySelector('#war-again').value = "";
-                                document.querySelector('#war-again').focus();
-                            }
-                        }
-                    });
             }
+
+            document.querySelector('.war-play-again').classList.add('active');
+            document.querySelector('#war-again').value = "";
+            document.querySelector('#war-again').focus();
+
+            document.querySelector('#war-again').addEventListener('keyup', function(e) {
+                var play_again = document.querySelector('#war-again').value.toLowerCase();
+
+                if(e.key === 'Enter') {
+                    e.preventDefault();
+
+                    if(play_again === 'y' || play_again === 'n') {
+                        if(play_again === 'y') {
+                            document.querySelector('.player-card').innerHTML = name + ": ";
+                            document.querySelector('.dealer-card').innerHTML = "Dealer: ";
+                            document.querySelector('.war-results').innerHTML = "";
+                            document.querySelectorAll('.draw-cards, .player-card, .dealer-card, .war-results, .war-play-again').forEach(function(el) {
+                                el.classList.remove('active');
+                            });
+                            drawCards();
+                        } else {
+                            document.querySelector('#war').removeAttribute('class');
+                            showGamesList(name);
+                        }
+                    }   else {
+                        document.querySelector('#war-again').value = "";
+                        document.querySelector('#war-again').focus();
+                    }
+                }
+            });
         }
     }
 
@@ -304,8 +360,23 @@
 
             switch(name.toLowerCase()) {
                 case 'clark':
+                case 'clark griswald':
+                case 'clark w griswald':
+                case 'clark w. griswald':
+                    switch(rps) {
+                        case 'rock':
+                            document.querySelector('.rps-results').innerHTML = "You chose: " + rps + ". The dealer chose: paper. You lose!";
+                            break;
+                        case 'paper':
+                            document.querySelector('.rps-results').innerHTML = "You chose: " + rps + ". The dealer chose: scissors. You lose!";
+                            break;
+                        case 'scissors':
+                            document.querySelector('.rps-results').innerHTML = "You chose: " + rps + ". The dealer chose: rock. You lose!";
+                            break;
+                    }
                     break;
                 case 'wopr':
+                    document.querySelector('.rps-results').innerHTML = "You chose: " + rps + ". The dealer chose: " + rps + ". It's a tie!";
                     break;
                 default:
                     if(rps === dealer_rps) {
@@ -323,33 +394,33 @@
                     } else if(rps === 'scissors' && dealer_rps === 'paper') {
                         document.querySelector('.rps-results').innerHTML = "You chose: " + rps + ". The dealer chose: " + dealer_rps + ". You win!";
                     }
-
-                    document.querySelector('.rps-play-again').classList.add('active');
-                    document.querySelector('#rps-again').value = "";
-                    document.querySelector('#rps-again').focus();
-
-                    document.querySelector('#rps-again').addEventListener('keyup', function(e) {
-                        var play_again = document.querySelector('#rps-again').value.toLowerCase();
-
-                        if(e.key === 'Enter') {
-                            e.preventDefault();
-
-                            if(play_again === 'y' || play_again === 'n') {
-                                if(play_again === 'y') {
-                                    document.querySelector('.rps-results').innerHTML = "";
-                                    document.querySelector('.rps-play-again').classList.remove('active');
-                                    rockPaperScissors(name);
-                                } else {
-                                    document.querySelector('#rock-paper-scissors').removeAttribute('class');
-                                    showGamesList(name);
-                                }
-                            }   else {
-                                document.querySelector('#rps-again').value = "";
-                                document.querySelector('#rps-again').focus();
-                            }
-                        }
-                    });
             }
+
+            document.querySelector('.rps-play-again').classList.add('active');
+            document.querySelector('#rps-again').value = "";
+            document.querySelector('#rps-again').focus();
+
+            document.querySelector('#rps-again').addEventListener('keyup', function(e) {
+                var play_again = document.querySelector('#rps-again').value.toLowerCase();
+
+                if(e.key === 'Enter') {
+                    e.preventDefault();
+
+                    if(play_again === 'y' || play_again === 'n') {
+                        if(play_again === 'y') {
+                            document.querySelector('.rps-results').innerHTML = "";
+                            document.querySelector('.rps-play-again').classList.remove('active');
+                            rockPaperScissors(name);
+                        } else {
+                            document.querySelector('#rock-paper-scissors').removeAttribute('class');
+                            showGamesList(name);
+                        }
+                    }   else {
+                        document.querySelector('#rps-again').value = "";
+                        document.querySelector('#rps-again').focus();
+                    }
+                }
+            });
         }
     }
 
@@ -392,8 +463,20 @@
 
             switch(name.toLowerCase()) {
                 case 'clark':
+                case 'clark griswald':
+                case 'clark w griswald':
+                case 'clark w. griswald':
+                    switch(coin) {
+                        case 'heads':
+                            document.querySelector('.coin-toss-results').innerHTML = "It's tails. You lose.";
+                            break;
+                        case 'tails':
+                            document.querySelector('.coin-toss-results').innerHTML = "It's heads. You lose.";
+                            break;
+                    }
                     break;
                 case 'wopr':
+                    document.querySelector('.which-hand-results').innerHTML = "It's " + coin + "! It's a tie! Wait, what? How is that even possible?";
                     break;
                 default:
                     if(coin === coinFlip) {
@@ -401,33 +484,33 @@
                     } else {
                         document.querySelector('.coin-toss-results').innerHTML = "Sorry, it's " + coinFlip + ". You lose.";
                     }
-
-                    document.querySelector('.coin-play-again').classList.add('active');
-                    document.querySelector('#coin-toss-again').value = "";
-                    document.querySelector('#coin-toss-again').focus();
-
-                    document.querySelector('#coin-toss-again').addEventListener('keyup', function(e) {
-                        var play_again = document.querySelector('#coin-toss-again').value.toLowerCase();
-
-                        if(e.key === 'Enter') {
-                            e.preventDefault();
-
-                            if(play_again === 'y' || play_again === 'n') {
-                                if(play_again === 'y') {
-                                    document.querySelector('.coin-toss-results').innerHTML = "";
-                                    document.querySelector('.coin-play-again').classList.remove('active');
-                                    headsOrTails(name);
-                                } else {
-                                    document.querySelector('#coin-toss').removeAttribute('class');
-                                    showGamesList(name);
-                                }
-                            }   else {
-                                document.querySelector('#coin-toss-again').value = "";
-                                document.querySelector('#coin-toss-again').focus();
-                            }
-                        }
-                    });
             }
+
+            document.querySelector('.coin-play-again').classList.add('active');
+            document.querySelector('#coin-toss-again').value = "";
+            document.querySelector('#coin-toss-again').focus();
+
+            document.querySelector('#coin-toss-again').addEventListener('keyup', function(e) {
+                var play_again = document.querySelector('#coin-toss-again').value.toLowerCase();
+
+                if(e.key === 'Enter') {
+                    e.preventDefault();
+
+                    if(play_again === 'y' || play_again === 'n') {
+                        if(play_again === 'y') {
+                            document.querySelector('.coin-toss-results').innerHTML = "";
+                            document.querySelector('.coin-play-again').classList.remove('active');
+                            headsOrTails(name);
+                        } else {
+                            document.querySelector('#coin-toss').removeAttribute('class');
+                            showGamesList(name);
+                        }
+                    }   else {
+                        document.querySelector('#coin-toss-again').value = "";
+                        document.querySelector('#coin-toss-again').focus();
+                    }
+                }
+            });
         }
     }
 
@@ -470,8 +553,20 @@
 
             switch(name.toLowerCase()) {
                 case 'clark':
+                case 'clark griswald':
+                case 'clark w griswald':
+                case 'clark w. griswald':
+                    switch(hand) {
+                        case 'left':
+                            document.querySelector('.coin-toss-results').innerHTML = "It's right. You lose.";
+                            break;
+                        case 'right':
+                            document.querySelector('.coin-toss-results').innerHTML = "It's left. You lose.";
+                            break;
+                    }
                     break;
                 case 'wopr':
+                    document.querySelector('.which-hand-results').innerHTML = "It's " + hand + "! It's a tie! Wait, what? How is that even possible?";
                     break;
                 default:
                     if(hand === whichHand) {
@@ -479,33 +574,33 @@
                     } else {
                         document.querySelector('.which-hand-results').innerHTML = "Sorry, it's " + whichHand + ". You lose.";
                     }
-
-                    document.querySelector('.hand-play-again').classList.add('active');
-                    document.querySelector('#which-hand-again').value = "";
-                    document.querySelector('#which-hand-again').focus();
-
-                    document.querySelector('#which-hand-again').addEventListener('keyup', function(e) {
-                        var play_again = document.querySelector('#which-hand-again').value.toLowerCase();
-
-                        if(e.key === 'Enter') {
-                            e.preventDefault();
-
-                            if(play_again === 'y' || play_again === 'n') {
-                                if(play_again === 'y') {
-                                    document.querySelector('.which-hand-results').innerHTML = "";
-                                    document.querySelector('.hand-play-again').classList.remove('active');
-                                    leftOrRight(name);
-                                } else {
-                                    document.querySelector('#guess-which-hand').removeAttribute('class');
-                                    showGamesList(name);
-                                }
-                            }   else {
-                                document.querySelector('#which-hand-again').value = "";
-                                document.querySelector('#which-hand-again').focus();
-                            }
-                        }
-                    });
             }
+
+            document.querySelector('.hand-play-again').classList.add('active');
+            document.querySelector('#which-hand-again').value = "";
+            document.querySelector('#which-hand-again').focus();
+
+            document.querySelector('#which-hand-again').addEventListener('keyup', function(e) {
+                var play_again = document.querySelector('#which-hand-again').value.toLowerCase();
+
+                if(e.key === 'Enter') {
+                    e.preventDefault();
+
+                    if(play_again === 'y' || play_again === 'n') {
+                        if(play_again === 'y') {
+                            document.querySelector('.which-hand-results').innerHTML = "";
+                            document.querySelector('.hand-play-again').classList.remove('active');
+                            leftOrRight(name);
+                        } else {
+                            document.querySelector('#guess-which-hand').removeAttribute('class');
+                            showGamesList(name);
+                        }
+                    }   else {
+                        document.querySelector('#which-hand-again').value = "";
+                        document.querySelector('#which-hand-again').focus();
+                    }
+                }
+            });
         }
     }
 
@@ -542,8 +637,17 @@
 
             switch(name.toLowerCase()) {
                 case 'clark':
+                case 'clark griswald':
+                case 'clark w griswald':
+                case 'clark w. griswald':
+                    if(num === 7) {
+                        document.querySelector('.one-ten-results').innerHTML = "Sorry, it's 7. Wait, what? You chose 7, and yet you still somehow managed to lose.";
+                    } else {
+                        document.querySelector('.one-ten-results').innerHTML = "Sorry, it's 7. You lose.";
+                    }
                     break;
                 case 'wopr':
+                    document.querySelector('.one-ten-results').innerHTML = "It's " + num + "! It's a tie! Wait, what? How is that even possible?";
                     break;
                 default:
                     if(num === randomNum) {
@@ -551,33 +655,33 @@
                     } else {
                         document.querySelector('.one-ten-results').innerHTML = "Sorry, it's " + randomNum + ". You lose.";
                     }
-
-                    document.querySelector('.one-ten-play-again').classList.add('active');
-                    document.querySelector('#one-ten-again').value = "";
-                    document.querySelector('#one-ten-again').focus();
-
-                    document.querySelector('#one-ten-again').addEventListener('keyup', function(e) {
-                        var play_again = document.querySelector('#one-ten-again').value.toLowerCase();
-
-                        if(e.key === 'Enter') {
-                            e.preventDefault();
-
-                            if(play_again === 'y' || play_again === 'n') {
-                                if(play_again === 'y') {
-                                    document.querySelector('.one-ten-results').innerHTML = "";
-                                    document.querySelector('.one-ten-play-again').classList.remove('active');
-                                    oneToTen(name);
-                                } else {
-                                    document.querySelector('#pick-a-number').removeAttribute('class');
-                                    showGamesList(name);
-                                }
-                            }   else {
-                                document.querySelector('#one-ten-again').value = "";
-                                document.querySelector('#one-ten-again').focus();
-                            }
-                        }
-                    });
             }
+
+            document.querySelector('.one-ten-play-again').classList.add('active');
+            document.querySelector('#one-ten-again').value = "";
+            document.querySelector('#one-ten-again').focus();
+
+            document.querySelector('#one-ten-again').addEventListener('keyup', function(e) {
+                var play_again = document.querySelector('#one-ten-again').value.toLowerCase();
+
+                if(e.key === 'Enter') {
+                    e.preventDefault();
+
+                    if(play_again === 'y' || play_again === 'n') {
+                        if(play_again === 'y') {
+                            document.querySelector('.one-ten-results').innerHTML = "";
+                            document.querySelector('.one-ten-play-again').classList.remove('active');
+                            oneToTen(name);
+                        } else {
+                            document.querySelector('#pick-a-number').removeAttribute('class');
+                            showGamesList(name);
+                        }
+                    }   else {
+                        document.querySelector('#one-ten-again').value = "";
+                        document.querySelector('#one-ten-again').focus();
+                    }
+                }
+            });
         }
     }
 
@@ -589,5 +693,10 @@
 
         var explosionAudio = new Audio('audio/Bomb_Exploding-Sound_Explorer-68256487.wav');
         explosionAudio.play();
+
+        setTimeout(function() {
+            document.querySelector('#global-thermonuclear-war').removeAttribute('class');
+            logon();
+        }, 10000);
     }
 })();

@@ -25,3 +25,5 @@ input {
 .green { color: var(--green); }
 
 .active { display: block; }
+
+.github, .youtube { height: 24px; }
