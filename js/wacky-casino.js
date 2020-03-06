@@ -10,7 +10,12 @@
         document.querySelector('#name').value = "";
         document.querySelector('#name').focus();
 
-        // Assign name to variable and go to "Shall We Play" screen when enter/return button pressed
+        /*
+        * Assign name to variable and go to "Shall We Play" screen when enter/return button pressed
+        * Easter Eggs: If any form of Clark, Clark Griswold, Clark W. Griswold or Sparky is entered for the name, the
+        *              player ALWAYS loses
+        *              If WOPR is entered, the player ALWAYS ties
+        */
         document.querySelector('#name').addEventListener('keyup', function(e) {
             if(e.key === 'Enter') {
                 e.preventDefault();
@@ -65,7 +70,7 @@
 
         /*
          * Player is to choose from the list of games (1 - 6)
-         * Game is displayed depening on the user's choice
+         * Game is displayed depending on the user's choice
          * Player is to enter 0 if they wish to exit the game
          */
         document.querySelector('#game-option').addEventListener('keyup', function(e) {
@@ -138,6 +143,7 @@
         document.querySelector('#war-again').value = "";
         document.querySelector('#draw-cards-option').focus();
 
+        // Asks the player if they would like to draw a card; if yes, initialize the game; no, return to games list screen
         document.querySelector('#draw-cards-option').addEventListener(('keyup'), function(e) {
             var draw_option = document.querySelector('#draw-cards-option').value.toLowerCase();
 
@@ -161,6 +167,7 @@
             }
         });
 
+        // Build the deck of cards
         var cards = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
         var suits = ['C', 'D', 'H', 'S'];
         var deck = [];
@@ -174,6 +181,7 @@
             });
         });
 
+        // Changes the card to Jack, Queen, King, or Ace
         function cardFace(card) {
             switch(card) {
                 case 11:
@@ -198,25 +206,113 @@
         function drawCards() {
             switch(name.toLowerCase()) {
                 case 'clark':
-                    break;
-                case 'wopr':
-                    break;
-                default:
-                    var random_num_player = Math.floor(Math.random() * deck.length);
-                    var player_card = deck[random_num_player];
-                    deck.splice(random_num_player, 1)
+                case 'clark griswold':
+                case 'clark w. griswold':
+                case 'sparky':
+                    /*
+                     * Random number generated to choose a card from the deck; removes the card so it cannot be
+                     * "selected" again
+                     */
+                    var random_card_dealer = Math.floor(Math.random() * deck.length);
+                    var dealer_card = deck[random_card_dealer];
+                    deck.splice(random_card_dealer, 1);
 
-                    var random_num_dealer = Math.floor(Math.random() * deck.length);
-                    var dealer_card = deck[random_num_dealer];
-                    deck.splice(random_num_dealer, 1)
+                    /*
+                     * Gets the card that is one lower from the dealer -- Clark always loses, and removes the card so it
+                     * cannot be "selected" again
+                     */
+                    var clark_card = deck[random_card_dealer - 1];
+                    deck.splice(random_card_dealer - 1, 1);
 
+                    // Activate cards and results areas
                     document.querySelectorAll('.player-card, .dealer-card, .war-results').forEach(function(el) {
                         el.classList.add('active');
                     });
 
+                    // Append the player's and dealer's cards
+                    document.querySelector('.player-card').innerHTML += cardFace(clark_card.card) + clark_card.suit;
+                    document.querySelector('.dealer-card').innerHTML += cardFace(dealer_card.card) + dealer_card.suit;
+
+                    // Display results
+                    document.querySelector('.war-results').innerHTML = 'Dealer wins!';
+                    break;
+                case 'wopr':
+                    var count = 0;
+
+                    // Activate cards and results areas
+                    document.querySelectorAll('.player-card, .dealer-card, .war-results').forEach(function(el) {
+                        el.classList.add('active');
+                    });
+
+                    // WOPR Easter egg always ties; as to not have an endless loop, the game will loop for 5 times
+                    for(var i = 0; i < 5; i++) {
+                        /*
+                         * Random number generated to choose a card from the deck; removes the card so it cannot be
+                         * "selected" again
+                         */
+                        var random_card = Math.floor(Math.random() * cards.length);
+                        var random_wopr_suit = Math.floor(Math.random() * suits.length);
+                        var random_dealer_suit = Math.floor(Math.random() * suits.length);
+
+                        // Sets Dealer's and WOPR's cards to be same, but different suits;
+                        var wopr_card = cardFace(cards[random_card]) + suits[random_wopr_suit];
+                        var dealer_card = cardFace(cards[random_card]) + suits[random_dealer_suit];
+
+                        if(wopr_card !== dealer_card) {
+                            // Append the player's and dealer's cards
+                            document.querySelector('.player-card').innerHTML += wopr_card;
+                            document.querySelector('.dealer-card').innerHTML += dealer_card;
+                        } else {
+                            /*
+                             * Random number generated to choose a card from the deck; removes the card so it cannot be
+                             * "selected" again
+                             */
+                            var random_card = Math.floor(Math.random() * cards.length);
+                            var random_wopr_suit = Math.floor(Math.random() * suits.length);
+                            var random_dealer_suit = Math.floor(Math.random() * suits.length);
+
+                            // Sets Dealer's and WOPR's cards to be same, but different suits;
+                            var wopr_card = cardFace(cards[random_card]) + suits[random_wopr_suit];
+                            var dealer_card = cardFace(cards[random_card]) + suits[random_dealer_suit];
+
+                            // Append the player's and dealer's cards
+                            document.querySelector('.player-card').innerHTML += wopr_card;
+                            document.querySelector('.dealer-card').innerHTML += dealer_card;
+                        }
+
+                        if(i < 4) {
+                            // Adding ellipses to simulate the three "dead" card layed down before the new card is dealt
+                            document.querySelector('.player-card').innerHTML += ' ... ';
+                            document.querySelector('.dealer-card').innerHTML += ' ... ';
+                        }
+                    }
+
+                    // Display results
+                    document.querySelector('.war-results').innerHTML = 'Seems like we\'ve reached a stalemate...';
+                    break;
+                default:
+                    /*
+                     * Random numbers are generated to choose a two differnt cards, for player and dealer from the deck;
+                     * removes the card so it cannot be "selected" again
+                     */
+                    var random_card_player = Math.floor(Math.random() * deck.length);
+                    var player_card = deck[random_num_player];
+                    deck.splice(random_card_player, 1);
+
+                    var random_card_dealer = Math.floor(Math.random() * deck.length);
+                    var dealer_card = deck[random_num_dealer];
+                    deck.splice(random_card_dealer, 1);
+
+                    // Activate cards and results areas
+                    document.querySelectorAll('.player-card, .dealer-card, .war-results').forEach(function(el) {
+                        el.classList.add('active');
+                    });
+
+                    // Append the player's and dealer's cards
                     document.querySelector('.player-card').innerHTML += cardFace(player_card.card) + player_card.suit;
                     document.querySelector('.dealer-card').innerHTML += cardFace(dealer_card.card) + dealer_card.suit;
 
+                    // Display results; play again if tied
                     if(player_card.card > dealer_card.card) {
                         document.querySelector('.war-results').innerHTML = name + ' wins!';
                     } else if(player_card.card < dealer_card.card) {
@@ -226,37 +322,42 @@
                         document.querySelector('.dealer-card').innerHTML += ' ... ';
                         drawCards();
                     }
-
-                    document.querySelector('.war-play-again').classList.add('active');
-                    document.querySelector('#war-again').value = "";
-                    document.querySelector('#war-again').focus();
-
-                    document.querySelector('#war-again').addEventListener('keyup', function(e) {
-                        var play_again = document.querySelector('#war-again').value.toLowerCase();
-
-                        if(e.key === 'Enter') {
-                            e.preventDefault();
-
-                            if(play_again === 'y' || play_again === 'n') {
-                                if(play_again === 'y') {
-                                    document.querySelector('.player-card').innerHTML = name + ": ";
-                                    document.querySelector('.dealer-card').innerHTML = "Dealer: ";
-                                    document.querySelector('.war-results').innerHTML = "";
-                                    document.querySelectorAll('.draw-cards, .player-card, .dealer-card, .war-results, .war-play-again').forEach(function(el) {
-                                        el.classList.remove('active');
-                                    });
-                                    drawCards();
-                                } else {
-                                    document.querySelector('#war').removeAttribute('class');
-                                    showGamesList(name);
-                                }
-                            }   else {
-                                document.querySelector('#war-again').value = "";
-                                document.querySelector('#war-again').focus();
-                            }
-                        }
-                    });
             }
+
+            // Activates "Play again" area
+            document.querySelector('.war-play-again').classList.add('active');
+            document.querySelector('#war-again').value = "";
+            document.querySelector('#war-again').focus();
+
+            /*
+            * Asks the player if they would like to play again;
+            * If yes, re-initialize the game; no, return to the games list screen
+            */
+            document.querySelector('#war-again').addEventListener('keyup', function(e) {
+                var play_again = document.querySelector('#war-again').value.toLowerCase();
+
+                if(e.key === 'Enter') {
+                    e.preventDefault();
+
+                    if(play_again === 'y' || play_again === 'n') {
+                        if(play_again === 'y') {
+                            document.querySelector('.player-card').innerHTML = name + ": ";
+                            document.querySelector('.dealer-card').innerHTML = "Dealer: ";
+                            document.querySelector('.war-results').innerHTML = "";
+                            document.querySelectorAll('.draw-cards, .player-card, .dealer-card, .war-results, .war-play-again').forEach(function(el) {
+                                el.classList.remove('active');
+                            });
+                            drawCards();
+                        } else {
+                            document.querySelector('#war').removeAttribute('class');
+                            showGamesList(name);
+                        }
+                    }   else {
+                        document.querySelector('#war-again').value = "";
+                        document.querySelector('#war-again').focus();
+                    }
+                }
+            });
         }
     }
 
@@ -273,6 +374,7 @@
         document.querySelector('#rps-again').value = "";
         document.querySelector('#rps-option').focus();
 
+        // Asks the player to choose between rock, paper and scissors
         document.querySelector('#rps-option').addEventListener('keyup', function(e) {
             var rps_option = document.querySelector('#rps-option').value.toLowerCase();
 
@@ -304,10 +406,28 @@
 
             switch(name.toLowerCase()) {
                 case 'clark':
+                case 'clark griswald':
+                case 'clark w griswald':
+                case 'clark w. griswald':
+                    // Always chooses the beating move -- Clark always looses
+                    switch(rps) {
+                        case 'rock':
+                            document.querySelector('.rps-results').innerHTML = "You chose: " + rps + ". The dealer chose: paper. You lose!";
+                            break;
+                        case 'paper':
+                            document.querySelector('.rps-results').innerHTML = "You chose: " + rps + ". The dealer chose: scissors. You lose!";
+                            break;
+                        case 'scissors':
+                            document.querySelector('.rps-results').innerHTML = "You chose: " + rps + ". The dealer chose: rock. You lose!";
+                            break;
+                    }
                     break;
                 case 'wopr':
+                    // Always chooses the same move -- WOPR always ties
+                    document.querySelector('.rps-results').innerHTML = "You chose: " + rps + ". The dealer chose: " + rps + ". It's a tie!";
                     break;
                 default:
+                    // Uses random generated move and compares to player selection; displays results
                     if(rps === dealer_rps) {
                         document.querySelector('.rps-results').innerHTML = "You chose: " + rps + ". The dealer chose: " + dealer_rps + ". It's a tie!";
                     } else if(rps === 'rock' && dealer_rps === 'paper') {
@@ -323,33 +443,37 @@
                     } else if(rps === 'scissors' && dealer_rps === 'paper') {
                         document.querySelector('.rps-results').innerHTML = "You chose: " + rps + ". The dealer chose: " + dealer_rps + ". You win!";
                     }
-
-                    document.querySelector('.rps-play-again').classList.add('active');
-                    document.querySelector('#rps-again').value = "";
-                    document.querySelector('#rps-again').focus();
-
-                    document.querySelector('#rps-again').addEventListener('keyup', function(e) {
-                        var play_again = document.querySelector('#rps-again').value.toLowerCase();
-
-                        if(e.key === 'Enter') {
-                            e.preventDefault();
-
-                            if(play_again === 'y' || play_again === 'n') {
-                                if(play_again === 'y') {
-                                    document.querySelector('.rps-results').innerHTML = "";
-                                    document.querySelector('.rps-play-again').classList.remove('active');
-                                    rockPaperScissors(name);
-                                } else {
-                                    document.querySelector('#rock-paper-scissors').removeAttribute('class');
-                                    showGamesList(name);
-                                }
-                            }   else {
-                                document.querySelector('#rps-again').value = "";
-                                document.querySelector('#rps-again').focus();
-                            }
-                        }
-                    });
             }
+
+            /*
+            * Asks the player if they would like to play again;
+            * If yes, re-initialize the game; no, return to the games list screen
+            */
+            document.querySelector('.rps-play-again').classList.add('active');
+            document.querySelector('#rps-again').value = "";
+            document.querySelector('#rps-again').focus();
+
+            document.querySelector('#rps-again').addEventListener('keyup', function(e) {
+                var play_again = document.querySelector('#rps-again').value.toLowerCase();
+
+                if(e.key === 'Enter') {
+                    e.preventDefault();
+
+                    if(play_again === 'y' || play_again === 'n') {
+                        if(play_again === 'y') {
+                            document.querySelector('.rps-results').innerHTML = "";
+                            document.querySelector('.rps-play-again').classList.remove('active');
+                            rockPaperScissors(name);
+                        } else {
+                            document.querySelector('#rock-paper-scissors').removeAttribute('class');
+                            showGamesList(name);
+                        }
+                    }   else {
+                        document.querySelector('#rps-again').value = "";
+                        document.querySelector('#rps-again').focus();
+                    }
+                }
+            });
         }
     }
 
@@ -366,6 +490,7 @@
         document.querySelector('#coin-toss-again').value = "";
         document.querySelector('#coin-option').focus();
 
+        // Asks the player to choose between heads or tails
         document.querySelector('#coin-option').addEventListener('keyup', function(e) {
             var coin_option = document.querySelector('#coin-option').value.toLowerCase();
 
@@ -392,42 +517,61 @@
 
             switch(name.toLowerCase()) {
                 case 'clark':
+                case 'clark griswald':
+                case 'clark w griswald':
+                case 'clark w. griswald':
+                    // Always chooses the opposite side -- Clark always looses
+                    switch(coin) {
+                        case 'heads':
+                            document.querySelector('.coin-toss-results').innerHTML = "It's tails. You lose.";
+                            break;
+                        case 'tails':
+                            document.querySelector('.coin-toss-results').innerHTML = "It's heads. You lose.";
+                            break;
+                    }
                     break;
                 case 'wopr':
+                    // Always chooses the same side -- WOPR always ties
+                    document.querySelector('.which-hand-results').innerHTML = "It's " + coin + "! It's a tie! Wait, what? How is that even possible?";
                     break;
                 default:
+                    // Uses random generated move and compares to player selection; displays results
                     if(coin === coinFlip) {
                         document.querySelector('.coin-toss-results').innerHTML = "It's " + coin + "! You win!";
                     } else {
                         document.querySelector('.coin-toss-results').innerHTML = "Sorry, it's " + coinFlip + ". You lose.";
                     }
-
-                    document.querySelector('.coin-play-again').classList.add('active');
-                    document.querySelector('#coin-toss-again').value = "";
-                    document.querySelector('#coin-toss-again').focus();
-
-                    document.querySelector('#coin-toss-again').addEventListener('keyup', function(e) {
-                        var play_again = document.querySelector('#coin-toss-again').value.toLowerCase();
-
-                        if(e.key === 'Enter') {
-                            e.preventDefault();
-
-                            if(play_again === 'y' || play_again === 'n') {
-                                if(play_again === 'y') {
-                                    document.querySelector('.coin-toss-results').innerHTML = "";
-                                    document.querySelector('.coin-play-again').classList.remove('active');
-                                    headsOrTails(name);
-                                } else {
-                                    document.querySelector('#coin-toss').removeAttribute('class');
-                                    showGamesList(name);
-                                }
-                            }   else {
-                                document.querySelector('#coin-toss-again').value = "";
-                                document.querySelector('#coin-toss-again').focus();
-                            }
-                        }
-                    });
             }
+
+            /*
+            * Asks the player if they would like to play again;
+            * If yes, re-initialize the game; no, return to the games list screen
+            */
+            document.querySelector('.coin-play-again').classList.add('active');
+            document.querySelector('#coin-toss-again').value = "";
+            document.querySelector('#coin-toss-again').focus();
+
+            document.querySelector('#coin-toss-again').addEventListener('keyup', function(e) {
+                var play_again = document.querySelector('#coin-toss-again').value.toLowerCase();
+
+                if(e.key === 'Enter') {
+                    e.preventDefault();
+
+                    if(play_again === 'y' || play_again === 'n') {
+                        if(play_again === 'y') {
+                            document.querySelector('.coin-toss-results').innerHTML = "";
+                            document.querySelector('.coin-play-again').classList.remove('active');
+                            headsOrTails(name);
+                        } else {
+                            document.querySelector('#coin-toss').removeAttribute('class');
+                            showGamesList(name);
+                        }
+                    }   else {
+                        document.querySelector('#coin-toss-again').value = "";
+                        document.querySelector('#coin-toss-again').focus();
+                    }
+                }
+            });
         }
     }
 
@@ -470,42 +614,61 @@
 
             switch(name.toLowerCase()) {
                 case 'clark':
+                case 'clark griswald':
+                case 'clark w griswald':
+                case 'clark w. griswald':
+                    // Always chooses the opposite hand -- Clark always looses
+                    switch(hand) {
+                        case 'left':
+                            document.querySelector('.coin-toss-results').innerHTML = "It's right. You lose.";
+                            break;
+                        case 'right':
+                            document.querySelector('.coin-toss-results').innerHTML = "It's left. You lose.";
+                            break;
+                    }
                     break;
                 case 'wopr':
+                    // Always chooses the same hand -- WOPR always ties
+                    document.querySelector('.which-hand-results').innerHTML = "It's " + hand + "! It's a tie! Wait, what? How is that even possible?";
                     break;
                 default:
+                    // Uses random generated move and compares to player selection; displays results
                     if(hand === whichHand) {
                         document.querySelector('.which-hand-results').innerHTML = "It's " + hand + "! You win!";
                     } else {
                         document.querySelector('.which-hand-results').innerHTML = "Sorry, it's " + whichHand + ". You lose.";
                     }
-
-                    document.querySelector('.hand-play-again').classList.add('active');
-                    document.querySelector('#which-hand-again').value = "";
-                    document.querySelector('#which-hand-again').focus();
-
-                    document.querySelector('#which-hand-again').addEventListener('keyup', function(e) {
-                        var play_again = document.querySelector('#which-hand-again').value.toLowerCase();
-
-                        if(e.key === 'Enter') {
-                            e.preventDefault();
-
-                            if(play_again === 'y' || play_again === 'n') {
-                                if(play_again === 'y') {
-                                    document.querySelector('.which-hand-results').innerHTML = "";
-                                    document.querySelector('.hand-play-again').classList.remove('active');
-                                    leftOrRight(name);
-                                } else {
-                                    document.querySelector('#guess-which-hand').removeAttribute('class');
-                                    showGamesList(name);
-                                }
-                            }   else {
-                                document.querySelector('#which-hand-again').value = "";
-                                document.querySelector('#which-hand-again').focus();
-                            }
-                        }
-                    });
             }
+
+            /*
+            * Asks the player if they would like to play again;
+            * If yes, re-initialize the game; no, return to the games list screen
+            */
+            document.querySelector('.hand-play-again').classList.add('active');
+            document.querySelector('#which-hand-again').value = "";
+            document.querySelector('#which-hand-again').focus();
+
+            document.querySelector('#which-hand-again').addEventListener('keyup', function(e) {
+                var play_again = document.querySelector('#which-hand-again').value.toLowerCase();
+
+                if(e.key === 'Enter') {
+                    e.preventDefault();
+
+                    if(play_again === 'y' || play_again === 'n') {
+                        if(play_again === 'y') {
+                            document.querySelector('.which-hand-results').innerHTML = "";
+                            document.querySelector('.hand-play-again').classList.remove('active');
+                            leftOrRight(name);
+                        } else {
+                            document.querySelector('#guess-which-hand').removeAttribute('class');
+                            showGamesList(name);
+                        }
+                    }   else {
+                        document.querySelector('#which-hand-again').value = "";
+                        document.querySelector('#which-hand-again').focus();
+                    }
+                }
+            });
         }
     }
 
@@ -542,42 +705,58 @@
 
             switch(name.toLowerCase()) {
                 case 'clark':
+                case 'clark griswald':
+                case 'clark w griswald':
+                case 'clark w. griswald':
+                    // The number is always 7 -- Clark always loses, even when choosing 7
+                    if(num === 7) {
+                        document.querySelector('.one-ten-results').innerHTML = "Sorry, it's 7. Wait, what? You chose 7, and yet you still somehow managed to lose.";
+                    } else {
+                        document.querySelector('.one-ten-results').innerHTML = "Sorry, it's 7. You lose.";
+                    }
                     break;
                 case 'wopr':
+                    // Always chooses the same number -- WOPR always ties
+                    document.querySelector('.one-ten-results').innerHTML = "It's " + num + "! It's a tie! Wait, what? How is that even possible?";
                     break;
                 default:
+                    // Uses random generated move and compares to player selection; displays results
                     if(num === randomNum) {
                         document.querySelector('.one-ten-results').innerHTML = "It's " + num + "! You win!";
                     } else {
                         document.querySelector('.one-ten-results').innerHTML = "Sorry, it's " + randomNum + ". You lose.";
                     }
-
-                    document.querySelector('.one-ten-play-again').classList.add('active');
-                    document.querySelector('#one-ten-again').value = "";
-                    document.querySelector('#one-ten-again').focus();
-
-                    document.querySelector('#one-ten-again').addEventListener('keyup', function(e) {
-                        var play_again = document.querySelector('#one-ten-again').value.toLowerCase();
-
-                        if(e.key === 'Enter') {
-                            e.preventDefault();
-
-                            if(play_again === 'y' || play_again === 'n') {
-                                if(play_again === 'y') {
-                                    document.querySelector('.one-ten-results').innerHTML = "";
-                                    document.querySelector('.one-ten-play-again').classList.remove('active');
-                                    oneToTen(name);
-                                } else {
-                                    document.querySelector('#pick-a-number').removeAttribute('class');
-                                    showGamesList(name);
-                                }
-                            }   else {
-                                document.querySelector('#one-ten-again').value = "";
-                                document.querySelector('#one-ten-again').focus();
-                            }
-                        }
-                    });
             }
+
+            /*
+            * Asks the player if they would like to play again;
+            * If yes, re-initialize the game; no, return to the games list screen
+            */
+            document.querySelector('.one-ten-play-again').classList.add('active');
+            document.querySelector('#one-ten-again').value = "";
+            document.querySelector('#one-ten-again').focus();
+
+            document.querySelector('#one-ten-again').addEventListener('keyup', function(e) {
+                var play_again = document.querySelector('#one-ten-again').value.toLowerCase();
+
+                if(e.key === 'Enter') {
+                    e.preventDefault();
+
+                    if(play_again === 'y' || play_again === 'n') {
+                        if(play_again === 'y') {
+                            document.querySelector('.one-ten-results').innerHTML = "";
+                            document.querySelector('.one-ten-play-again').classList.remove('active');
+                            oneToTen(name);
+                        } else {
+                            document.querySelector('#pick-a-number').removeAttribute('class');
+                            showGamesList(name);
+                        }
+                    }   else {
+                        document.querySelector('#one-ten-again').value = "";
+                        document.querySelector('#one-ten-again').focus();
+                    }
+                }
+            });
         }
     }
 
@@ -587,7 +766,14 @@
         document.querySelector('#global-thermonuclear-war').setAttribute('class', 'active');
         document.querySelector('#global-thermonuclear-war .logon-name').innerHTML = name;
 
+        // Plays explosion sound
         var explosionAudio = new Audio('audio/Bomb_Exploding-Sound_Explorer-68256487.wav');
         explosionAudio.play();
+
+        // After 10 seconds, player is redirected to "Logon" screen
+        setTimeout(function() {
+            document.querySelector('#global-thermonuclear-war').removeAttribute('class');
+            logon();
+        }, 10000);
     }
 })();
