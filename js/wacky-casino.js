@@ -19,9 +19,9 @@
         document.querySelector('#name').addEventListener('keyup', function(e) {
             if(e.key === 'Enter') {
                 e.preventDefault();
-                var logon_name = document.querySelector('#name').value;
+                var name = document.querySelector('#name').value.toLowerCase();
 
-                shallWePlay(logon_name);
+                shallWePlay(name);
             }
         });
     }
@@ -152,9 +152,6 @@
 
                 if(draw_option === 'y' || draw_option === 'n') {
                     if(draw_option === 'y') {
-                        document.querySelector('.player-card').innerHTML = name + ": ";
-                        document.querySelector('.dealer-card').innerHTML = "Dealer: ";
-                        document.querySelector('.war-results').innerHTML = "";
                         drawCards();
                     } else {
                         document.querySelector('#war').removeAttribute('class');
@@ -204,7 +201,11 @@
         }
 
         function drawCards() {
-            switch(name.toLowerCase()) {
+            document.querySelector('.player-card').innerHTML = name + ": ";
+            document.querySelector('.dealer-card').innerHTML = "Dealer: ";
+            document.querySelector('.war-results').innerHTML = "";
+
+            switch(name) {
                 case 'clark':
                 case 'clark griswold':
                 case 'clark w. griswold':
@@ -221,8 +222,10 @@
                      * Gets the card that is one lower from the dealer -- Clark always loses, and removes the card so it
                      * cannot be "selected" again
                      */
-                    var clark_card = deck[random_card_dealer - 1];
-                    deck.splice(random_card_dealer - 1, 1);
+                    var random_card_clark = random_card_dealer - 1;
+                    var clark_card = deck[random_card_clark];
+
+                    deck.splice(random_card_clark, 1);
 
                     // Activate cards and results areas
                     document.querySelectorAll('.player-card, .dealer-card, .war-results').forEach(function(el) {
@@ -296,11 +299,11 @@
                      * removes the card so it cannot be "selected" again
                      */
                     var random_card_player = Math.floor(Math.random() * deck.length);
-                    var player_card = deck[random_num_player];
+                    var player_card = deck[random_card_player];
                     deck.splice(random_card_player, 1);
 
                     var random_card_dealer = Math.floor(Math.random() * deck.length);
-                    var dealer_card = deck[random_num_dealer];
+                    var dealer_card = deck[random_card_dealer];
                     deck.splice(random_card_dealer, 1);
 
                     // Activate cards and results areas
@@ -341,9 +344,6 @@
 
                     if(play_again === 'y' || play_again === 'n') {
                         if(play_again === 'y') {
-                            document.querySelector('.player-card').innerHTML = name + ": ";
-                            document.querySelector('.dealer-card').innerHTML = "Dealer: ";
-                            document.querySelector('.war-results').innerHTML = "";
                             document.querySelectorAll('.draw-cards, .player-card, .dealer-card, .war-results, .war-play-again').forEach(function(el) {
                                 el.classList.remove('active');
                             });
@@ -382,7 +382,7 @@
                 e.preventDefault();
 
                 if(rps_option === 'rock' || rps_option === 'paper' || rps_option === 'scissors') {
-                    rps(rps_option, name);
+                    rps(rps_option);
                 } else {
                     document.querySelector('#rps-option').value = "";
                     document.querySelector('#rps-option').focus();
@@ -390,7 +390,7 @@
             }
         });
 
-        function rps(rps, name) {
+        function rps(rps) {
             var dealer_rps = Math.floor(Math.random() * 3);
 
             switch(dealer_rps) {
@@ -404,11 +404,11 @@
                     dealer_rps = 'scissors';
             }
 
-            switch(name.toLowerCase()) {
+            switch(name) {
                 case 'clark':
-                case 'clark griswald':
-                case 'clark w griswald':
-                case 'clark w. griswald':
+                case 'clark griswold':
+                case 'clark w. griswold':
+                case 'sparky':
                     // Always chooses the beating move -- Clark always looses
                     switch(rps) {
                         case 'rock':
@@ -498,7 +498,7 @@
                 e.preventDefault();
 
                 if(coin_option === 'heads' || coin_option === 'tails') {
-                    flipCoin(coin_option, name);
+                    flipCoin(coin_option);
                 } else {
                     document.querySelector('#coin-option').value = "";
                     document.querySelector('#coin-option').focus();
@@ -506,7 +506,7 @@
             }
         });
 
-        function flipCoin(coin, name) {
+        function flipCoin(coin) {
             var coinFlip = Math.floor(Math.random() * 2);
 
             if(coinFlip === 1) {
@@ -515,11 +515,11 @@
                 coinFlip = 'tails';
             }
 
-            switch(name.toLowerCase()) {
+            switch(name) {
                 case 'clark':
-                case 'clark griswald':
-                case 'clark w griswald':
-                case 'clark w. griswald':
+                case 'clark griswold':
+                case 'clark w. griswold':
+                case 'sparky':
                     // Always chooses the opposite side -- Clark always looses
                     switch(coin) {
                         case 'heads':
@@ -595,7 +595,7 @@
                 e.preventDefault();
 
                 if(hand_option === 'left' || hand_option === 'right') {
-                    whichHand(hand_option, name);
+                    whichHand(hand_option);
                 } else {
                     document.querySelector('#hand-option').value = "";
                     document.querySelector('#hand-option').focus();
@@ -603,7 +603,7 @@
             }
         });
 
-        function whichHand(hand, name) {
+        function whichHand(hand) {
             var whichHand = Math.floor(Math.random() * 2);
 
             if(whichHand === 1) {
@@ -612,11 +612,11 @@
                 whichHand = 'right';
             }
 
-            switch(name.toLowerCase()) {
+            switch(name) {
                 case 'clark':
-                case 'clark griswald':
-                case 'clark w griswald':
-                case 'clark w. griswald':
+                case 'clark griswold':
+                case 'clark w. griswold':
+                case 'sparky':
                     // Always chooses the opposite hand -- Clark always looses
                     switch(hand) {
                         case 'left':
@@ -692,7 +692,7 @@
                 e.preventDefault();
 
                 if(!isNaN(one_ten_option) && (one_ten_option >= 1 && one_ten_option <= 10)) {
-                    oneTen(one_ten_option, name);
+                    oneTen(one_ten_option);
                 } else {
                     document.querySelector('#one-ten-option').value = "";
                     document.querySelector('#one-ten-option').focus();
@@ -700,14 +700,14 @@
             }
         });
 
-        function oneTen(num, name) {
+        function oneTen(num) {
             var randomNum = Math.floor((Math.random() * 10) + 1);
 
-            switch(name.toLowerCase()) {
+            switch(name) {
                 case 'clark':
-                case 'clark griswald':
-                case 'clark w griswald':
-                case 'clark w. griswald':
+                case 'clark griswold':
+                case 'clark w. griswold':
+                case 'sparky':
                     // The number is always 7 -- Clark always loses, even when choosing 7
                     if(num === 7) {
                         document.querySelector('.one-ten-results').innerHTML = "Sorry, it's 7. Wait, what? You chose 7, and yet you still somehow managed to lose.";
